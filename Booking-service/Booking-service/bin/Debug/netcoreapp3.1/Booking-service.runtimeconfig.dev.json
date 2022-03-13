@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Bea\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Bea\\.nuget\\packages"
+    ]
+  }
+}
