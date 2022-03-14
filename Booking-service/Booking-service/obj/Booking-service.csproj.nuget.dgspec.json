@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bea\\Documents\\Semester 6\\Booking-service\\Booking-service\\Booking-service.csproj": {}
+    "C:\\Users\\Bea\\Documents\\Semester 6\\IND\\semester-6-project\\Booking-service\\Booking-service\\Booking-service.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bea\\Documents\\Semester 6\\Booking-service\\Booking-service\\Booking-service.csproj": {
+    "C:\\Users\\Bea\\Documents\\Semester 6\\IND\\semester-6-project\\Booking-service\\Booking-service\\Booking-service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bea\\Documents\\Semester 6\\Booking-service\\Booking-service\\Booking-service.csproj",
+        "projectUniqueName": "C:\\Users\\Bea\\Documents\\Semester 6\\IND\\semester-6-project\\Booking-service\\Booking-service\\Booking-service.csproj",
         "projectName": "Booking-service",
-        "projectPath": "C:\\Users\\Bea\\Documents\\Semester 6\\Booking-service\\Booking-service\\Booking-service.csproj",
+        "projectPath": "C:\\Users\\Bea\\Documents\\Semester 6\\IND\\semester-6-project\\Booking-service\\Booking-service\\Booking-service.csproj",
         "packagesPath": "C:\\Users\\Bea\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bea\\Documents\\Semester 6\\Booking-service\\Booking-service\\obj\\",
+        "outputPath": "C:\\Users\\Bea\\Documents\\Semester 6\\IND\\semester-6-project\\Booking-service\\Booking-service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Bea\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Hotel} from '../models/Hotel';
 import { Router } from '@angular/router';
+import { HotelsService } from '../services/hotels.service';
+import { Observable } from 'rxjs';
 
-const ELEMENT_DATA: Hotel[] = [
-  {id: 1, title: 'Amsterdam hotel', info: 'tbd'},
-  {id: 2, title: 'Stockholm hotel', info: 'tbd'},
-  {id: 3, title: 'Den haag hotel', info: 'tbd'},
-];
+
 
 
 @Component({
@@ -15,10 +13,14 @@ const ELEMENT_DATA: Hotel[] = [
   styleUrls: ['./hotel-frontpage.component.css']
 })
 export class HotelFrontpageComponent implements OnInit {
-  constructor(private router: Router){}
-  hotelList: Hotel[] | undefined;
+  constructor(private router: Router, private hotelService: HotelsService){}
+  hotelList: Hotel[] = [];
   ngOnInit(): void {
-    this.hotelList = ELEMENT_DATA;
+    this.hotelService.getAllHotels()
+    .subscribe((data)=>{
+     this.hotelList = <Hotel[]>data;
+  });
+
 
   }
   openHotelDetails(hotel: Hotel): void {
