@@ -10,6 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
+using System.Text;
+using System;
+using Booking_service.Models;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Shared;
 
 namespace Booking_service
 {
@@ -28,6 +35,7 @@ namespace Booking_service
             services.AddControllers();
             services.AddSwaggerGen();
             services.AddCors();
+            services.AddMessagePublishing("BookingService");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +52,7 @@ namespace Booking_service
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+            
 
             //app.UseAuthorization();
 
@@ -51,6 +60,9 @@ namespace Booking_service
             {
                 endpoints.MapControllers();
             });
+
         }
+
+       
     }
 }

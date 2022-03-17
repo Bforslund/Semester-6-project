@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Booking_service.Models
+namespace HotelService.Models
 {
     public class Hotel
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Info { get; set; }
-        public int Rooms { get; set; }
-        public Hotel(int id, string title, string info, int rooms)
+
+        public int rooms { get; set; }
+        public Hotel(int id, string title, string info)
         {
             Id = id;
             Title = title;
             Info = info;
-            Rooms = 11;
+            rooms = 10;
         }
     }
 }

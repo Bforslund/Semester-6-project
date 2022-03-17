@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotelService.Database;
+using HotelService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,13 +13,14 @@ namespace HotelService.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        database database = new database();
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-
+        
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
@@ -34,6 +37,15 @@ namespace HotelService.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+       
+
+
+        [HttpGet]
+        [Route("hotels")]
+        public ActionResult GetAllHotels()
+        {
+            return Ok(database.hotelList);
         }
     }
 }

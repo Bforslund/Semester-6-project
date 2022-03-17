@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PlayerService.MessageHandlers;
+using Shared;
 
 namespace HotelService
 {
@@ -31,6 +27,9 @@ namespace HotelService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelService", Version = "v1" });
             });
+            services.AddMessagePublishing("HotelService", builder => {
+                builder.WithHandler<NewBookingMessageHandler>("BookingCompleted");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +43,7 @@ namespace HotelService
             }
 
             app.UseRouting();
+           // MessageQueue();
 
             app.UseAuthorization();
 
@@ -52,5 +52,34 @@ namespace HotelService
                 endpoints.MapControllers();
             });
         }
+        public void MessageQueue()
+        {
+           /* ConnectionFactory factory = new ConnectionFactory();
+            factory.HostName = "localhost";
+            factory.Port = 5672;
+            factory.UserName = "guest";
+            factory.Password = "guest";
+
+            using IConnection connection = factory.CreateConnection();
+            IModel channel = connection.CreateModel();
+            channel.ExchangeDeclare("bookingqueue", ExchangeType.Fanout, true, false, null);
+            channel.QueueDeclare("queueNewBooking");
+            channel.QueueBind("queueNewBooking", "bookingqueue", "#");
+           
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+                byte[] body = ea.Body.ToArray();
+                string message = Encoding.Unicode.GetString(body);
+                Hotel newHotel = JsonSerializer.Deserialize<Hotel>(message);
+                controller.hotelList.Add(newHotel);
+            };
+            channel.BasicConsume(queue: "queueNewBooking",
+                                 autoAck: true,
+                                 consumer: consumer);*/
+
+            
+        
+    }
     }
 }
