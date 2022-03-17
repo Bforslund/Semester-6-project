@@ -14,8 +14,14 @@ export class HotelsService {
   };
 
   public getAllHotels(){
-    return this.httpClient.get('http://localhost:49162/Hotel/hotels', this.httpOptions);
+    return this.httpClient.get('http://localhost:43572/Hotel/hotels', this.httpOptions);
   }
+
+
+  public getHotelById(id: number){
+    return this.httpClient.get('http://localhost:43572/Hotel/' + id, this.httpOptions);
+  }
+  
 
 
 }

@@ -11,13 +11,13 @@ namespace HotelService.Models
         public string Title { get; set; }
         public string Info { get; set; }
 
-        public int rooms { get; set; }
-        public Hotel(int id, string title, string info)
+        public int Rooms { get; set; }
+        public Hotel(int id, string title, string info, int rooms)
         {
             Id = id;
             Title = title;
             Info = info;
-            rooms = 10;
+            Rooms = rooms;
         }
     }
 }

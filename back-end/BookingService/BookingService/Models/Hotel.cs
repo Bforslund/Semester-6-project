@@ -16,7 +16,7 @@ namespace Booking_service.Models
             Id = id;
             Title = title;
             Info = info;
-            Rooms = 11;
+            Rooms = rooms;
         }
     }
 }

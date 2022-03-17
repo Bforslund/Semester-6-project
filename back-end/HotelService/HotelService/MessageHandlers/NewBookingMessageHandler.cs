@@ -24,10 +24,9 @@ namespace PlayerService.MessageHandlers
             {
                 return Task.CompletedTask;
             }
-            Hotel newBooking = obj.Hotel;
 
-            newBooking.rooms -= 1;
-            database.AddHotel(newBooking);
+
+            database.removeRoom(obj.Hotel);
             return Task.CompletedTask;
         }
     }

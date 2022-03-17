@@ -1,3 +1,4 @@
+using HotelService.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ namespace HotelService
 {
     public class Startup
     {
+        database mockDB = new database();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,6 +37,7 @@ namespace HotelService
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options => options.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -43,7 +46,6 @@ namespace HotelService
             }
 
             app.UseRouting();
-           // MessageQueue();
 
             app.UseAuthorization();
 
@@ -52,34 +54,6 @@ namespace HotelService
                 endpoints.MapControllers();
             });
         }
-        public void MessageQueue()
-        {
-           /* ConnectionFactory factory = new ConnectionFactory();
-            factory.HostName = "localhost";
-            factory.Port = 5672;
-            factory.UserName = "guest";
-            factory.Password = "guest";
-
-            using IConnection connection = factory.CreateConnection();
-            IModel channel = connection.CreateModel();
-            channel.ExchangeDeclare("bookingqueue", ExchangeType.Fanout, true, false, null);
-            channel.QueueDeclare("queueNewBooking");
-            channel.QueueBind("queueNewBooking", "bookingqueue", "#");
-           
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
-            {
-                byte[] body = ea.Body.ToArray();
-                string message = Encoding.Unicode.GetString(body);
-                Hotel newHotel = JsonSerializer.Deserialize<Hotel>(message);
-                controller.hotelList.Add(newHotel);
-            };
-            channel.BasicConsume(queue: "queueNewBooking",
-                                 autoAck: true,
-                                 consumer: consumer);*/
-
-            
-        
-    }
+     
     }
 }

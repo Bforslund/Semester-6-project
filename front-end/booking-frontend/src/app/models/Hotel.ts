@@ -5,6 +5,7 @@ export class Hotel{
         public id:number,
         public title: string,
         public info: string,
+        public rooms:number
        
     ) { 
        

@@ -22,14 +22,15 @@ namespace Booking_service.Controllers
             _messagePublisher = messagePublisher;
         }
 
-       
+        
+
+
         [HttpPost]
-        public async Task<IActionResult> CompleteBooking(int bookingId)
+        public async Task<IActionResult> CompleteBooking(Booking newBooking)
         {
-            Hotel haagHotel = new Hotel(1, "Den Haag Hotel", "fhsdf");
-            Booking booking = new Booking(1, haagHotel, "booked 1 room");
-            bookingList.Add(booking);
-            await _messagePublisher.PublishMessageAsync("BookingCompleted", booking);
+
+            bookingList.Add(newBooking);
+            await _messagePublisher.PublishMessageAsync("BookingCompleted", newBooking);
 
             return Ok();
         }
