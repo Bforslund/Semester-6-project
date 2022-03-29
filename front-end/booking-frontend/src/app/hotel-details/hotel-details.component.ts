@@ -4,6 +4,7 @@ import {FormGroup, FormControl, NgForm, Validators, FormGroupDirective} from '@a
 import { HotelsService } from '../services/hotels.service';
 import { Hotel } from '../models/Hotel';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { AvailabilitySearch } from '../models/AvailabilitySearch';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -22,6 +23,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class HotelDetailsComponent implements OnInit {
   id: number | undefined;
   hotel = new Hotel(1,"","",1);
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  startD: any;
+  endD:any;
+  available:number = 0;
   constructor(private route: ActivatedRoute, private service: HotelsService) { }
 
 
@@ -34,13 +42,24 @@ export class HotelDetailsComponent implements OnInit {
  this.id = Number(this.route.snapshot.paramMap.get('id'));
  this.service.getHotelById(this.id)
     .subscribe((data)=>{
-      console.log(data);
+      
      this.hotel = <Hotel>data;
     });
 
 }
-range = new FormGroup({
-  start: new FormControl(),
-  end: new FormControl(),
-});
+
+
+
+submit(data:any, hotel:Hotel) {
+  var dates = new AvailabilitySearch(data.start,  data.end);
+  this.service.checkAvailability(hotel.id, dates).subscribe((res: any)=>{
+    this.available = <number>res;
+  },       (error: Response) => {
+      console.log(error);
+  });
+
+}
+
+
+
 }

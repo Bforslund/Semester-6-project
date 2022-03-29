@@ -37,7 +37,7 @@ namespace HotelService.Controllers
         public ActionResult GetAllHotels()
         {
 
-            return Ok(database.hotelList);
+            return Ok(database.HotelList);
         }
 
         [HttpGet]

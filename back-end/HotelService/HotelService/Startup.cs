@@ -29,8 +29,9 @@ namespace HotelService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelService", Version = "v1" });
             });
-            services.AddMessagePublishing("HotelService", builder => {
-                builder.WithHandler<NewBookingMessageHandler>("BookingCompleted");
+            services.AddMessagePublishing("HotelService", builder =>
+            {
+                builder.WithHandler<NewBookingMessageHandler>("NewBooking");
             });
         }
 

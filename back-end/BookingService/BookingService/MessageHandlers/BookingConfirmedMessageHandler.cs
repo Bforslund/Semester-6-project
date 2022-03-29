@@ -1,23 +1,22 @@
-﻿using HotelService.Controllers;
-using HotelService.Database;
-using HotelService.Models;
+﻿
 using Shared.Messaging;
+using System;
 using System.Threading.Tasks;
 
 namespace PlayerService.MessageHandlers
 {
-    public class NewBookingMessageHandler : IMessageHandler<Booking>
+    public class BookingConfirmedMessageHandler : IMessageHandler<string>
     {
 
-        database database = new database();
+       
         private readonly IMessagePublisher _messagePublisher;
 
-        public NewBookingMessageHandler( IMessagePublisher messagePublisher)
+        public BookingConfirmedMessageHandler( IMessagePublisher messagePublisher)
         {
            
             _messagePublisher = messagePublisher;
         }
-        public Task HandleMessageAsync(string messageType, Booking obj)
+        public Task HandleMessageAsync(string messageType, string obj)
         {
            
             if (obj == null)
@@ -29,8 +28,8 @@ namespace PlayerService.MessageHandlers
             // add to reserved rooms table
 
             //send a room reserved event
-            _messagePublisher.PublishMessageAsync("BookingConfirmed", "confirmed");
-
+            //_messagePublisher.PublishMessageAsync("BookingConfirmed", "confirmed");
+            Console.WriteLine("Booking completed: "+ obj);
             return Task.CompletedTask;
         }
     }

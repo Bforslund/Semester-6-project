@@ -35,28 +35,13 @@
         <div class="information">
             <p>{{this.hotel.info}}</p>
         </div>
-        <form> 
-            <form class="example-form">
-                <mat-form-field class="example-full-width" appearance="fill">
-                  <mat-label>Email</mat-label>
-                  <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-                         placeholder="Ex. pat@example.com">
-                  <mat-hint>Errors appear instantly!</mat-hint>
-                  <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-                    Please enter a valid email address
-                  </mat-error>
-                  <mat-error *ngIf="emailFormControl.hasError('required')">
-                    Email is <strong>required</strong>
-                  </mat-error>
-                </mat-form-field>
-              </form>
-
-
+        <form class="example-form"> 
+    
             <mat-form-field appearance="fill">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                  <input matStartDate formControlName="start" placeholder="Start date">
-                  <input matEndDate formControlName="end" placeholder="End date">
+                  <input matStartDate formControlName="start"  [(ngModel)]="startD" placeholder="Start date" >
+                  <input matEndDate formControlName="end"  [(ngModel)]="endD" placeholder="End date">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -65,9 +50,38 @@
                 <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
               </mat-form-field>
               
-              <p>Selected range: {{range.value | json}}</p>
-            <button>Reserve</button>
+              <p>You have selected: {{range.value | json}}</p>
+              <!-- <input id="number" type="number" value="1"> -->
+              <button  class="btn btn-primary btn-lg btn-block"  (click)="submit(range.value, this.hotel)">Check if available</button>
+           
         </form>
-       
+       <form>
+           <br>
+           <br>
+           <br>
+           
+           <br>
+           <br>
+           <h1>
+            <p>{{this.available}} rooms were available for these dates</p>
+           </h1>
+           <div *ngIf="this.available >= 1">
+               
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                       placeholder="Ex. pat@example.com">
+                <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                  Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="emailFormControl.hasError('required')">
+                  Email is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <button>Make reservation</button></div>
+
+             
+              
+       </form>
     </div>
   

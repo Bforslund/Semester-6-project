@@ -17,6 +17,7 @@ using Booking_service.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Shared;
+using PlayerService.MessageHandlers;
 
 namespace BookingService
 {
@@ -39,7 +40,10 @@ namespace BookingService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookingService", Version = "v1" });
             });
             services.AddCors();
-            services.AddMessagePublishing("BookingService");
+            services.AddMessagePublishing("BookingService", builder =>
+            {
+                builder.WithHandler<BookingConfirmedMessageHandler>("BookingConfirmed");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

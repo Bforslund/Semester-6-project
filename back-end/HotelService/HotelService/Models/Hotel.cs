@@ -10,14 +10,14 @@ namespace HotelService.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Info { get; set; }
+        public int Rooms => RoomsByType.Sum(x => x.Value);
+        public IDictionary<Room, int> RoomsByType { get; } = new Dictionary<Room, int>();
 
-        public int Rooms { get; set; }
-        public Hotel(int id, string title, string info, int rooms)
+        public Hotel(int id, string title, string info)
         {
             Id = id;
             Title = title;
             Info = info;
-            Rooms = rooms;
         }
     }
 }

@@ -19,9 +19,10 @@ namespace Shared.Messaging
         {
             if(_connection == null)
             {
+                var hostName = Environment.GetEnvironmentVariable("RABBITMQ_HOSTNAME") ?? "localhost";
                 var factory = new ConnectionFactory
                 {
-                    Uri = new Uri("amqp://guest:guest@localhost:5672"),
+                    Uri = new Uri($"amqp://guest:guest@{hostName}:5672"),
                     AutomaticRecoveryEnabled = true // When the connection is lost, this will automatically reconnect us when it can get back up
                 };
                 _connection = factory.CreateConnection();
