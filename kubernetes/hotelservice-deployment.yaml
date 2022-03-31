@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotelservice
+  labels:
+    app: hotelservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotelservice
+  template:
+    metadata:
+      labels:
+        app: hotelservice
+    spec:
+      containers:
+      - name: hotelservice
+        image: localhost:5000/hotelservice:dev
+        imagePullPolicy: Always
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: RABBITMQ_HOSTNAME
+          value: rabbitmq-client.default.svc.cluster.local
+        ports:
+        - containerPort: 80

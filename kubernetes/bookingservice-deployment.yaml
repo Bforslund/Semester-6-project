@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookingservice
+  labels:
+    app: bookingservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookingservice
+  template:
+    metadata:
+      labels:
+        app: bookingservice
+    spec:
+      containers:
+      - name: bookingservice
+        image: localhost:5000/bookingservice:dev
+        imagePullPolicy: Always
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+        - name: RABBITMQ_HOSTNAME
+          value: rabbitmq-client.default.svc.cluster.local
+        ports:
+        - containerPort: 80
