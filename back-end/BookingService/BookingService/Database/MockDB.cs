@@ -9,35 +9,30 @@ namespace BookingService.Database
 {
     public class MockDB
     {
-        public static List<Hotel> hotelList = new List<Hotel>();
+        public static List<Hotel> HotelList = new List<Hotel>();
         public static List<Booking> BookingList = new List<Booking>();
-        public static List<Room> RoomsList = new List<Room>();
-        public static List<ReservedRoom> ReservedRoomsList = new List<ReservedRoom>();
+        public static List<Room> ReservedRoomsList = new List<Room>();
 
 
         public void FillDB()
         {
-            Room haagRoom = new Room(1, "Economy");
-            Room amsRoom = new Room(3, "Economy");
-            Room rdmRoom = new Room(5, "Economy");
-
-            RoomsList.Add(haagRoom);
-            RoomsList.Add(amsRoom);
-            RoomsList.Add(rdmRoom);
 
 
             Hotel haagHotel = new Hotel(1, "Den Haag Hotel", "This hotel is beautiful located next to the beach");
-            haagHotel.RoomsByType.Add(haagRoom, 8);
+            haagHotel.RoomsByType.Add(new Room(1, "Economy"), 8);
+            haagHotel.RoomsByType.Add(new Room(2, "Premium"), 2);
 
             Hotel amsHotel = new Hotel(2, "Amsterdam Hotel", "This hotel is located right next to clubs and is a great fit for the party person");
-            amsHotel.RoomsByType.Add(amsRoom, 6);
+            amsHotel.RoomsByType.Add(new Room(3, "Economy"), 6);
+            amsHotel.RoomsByType.Add(new Room(4, "Premium"), 1);
 
             Hotel rdmHotel = new Hotel(3, "Rotterdam Hotel", "This hotel is located next to the highest buildings");
-            rdmHotel.RoomsByType.Add(rdmRoom, 14);
+            rdmHotel.RoomsByType.Add(new Room(5, "Economy"), 14);
+            rdmHotel.RoomsByType.Add(new Room(6, "Premium"), 1);
 
-            hotelList.Add(haagHotel);
-            hotelList.Add(amsHotel);
-            hotelList.Add(rdmHotel);
+            HotelList.Add(haagHotel);
+            HotelList.Add(amsHotel);
+            HotelList.Add(rdmHotel);
 
             DateTime dt1 = new DateTime(2015, 12, 05);
             DateTime dt2 = new DateTime(2015, 12, 10);
@@ -60,7 +55,7 @@ namespace BookingService.Database
 
         public int AmountOfAvailableRooms(int hotelId, DateTime startNewBooking, DateTime endNewBooking)
         {
-            var hotel = hotelList.Single(h => h.Id == hotelId);
+            var hotel = HotelList.Single(h => h.Id == hotelId);
             var bookings = GetAllBookingsOfOneHotel(hotel);
 
             var amountOfTakenRooms = bookings.Count(
@@ -84,7 +79,56 @@ namespace BookingService.Database
             return bookingsof1hotel;
         }
 
-  
+        public Hotel GetHotelById(int id)
+        {
+            foreach (Hotel hotel in HotelList)
+            {
+                if (id == hotel.Id)
+                {
+                    return hotel;
+                }
+            }
+            return null;
+        }
+
+        public Room GetRoomById(Hotel h, int id)
+        {
+            foreach (var room in h.RoomsByType.Keys)
+            {
+                if (id == room.Id)
+                {
+                    return room;
+                }
+            }
+            return null;
+        }
+
+        public bool CheckAvailability(int hId, DateTime start, DateTime end)
+        {
+           if(AmountOfAvailableRooms(hId, start, end) > 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool ConfirmBooking(Booking b)
+        {
+           
+
+            if (CheckAvailability(b.HotelId, b.Start, b.End))
+            {
+                var obj = BookingList.FirstOrDefault(x => x.Id == b.Id);
+                if (obj != null)
+                {
+                    obj.Confirmed = true;
+                }
+            }
+            return true;
+           
+        }
+
+
 
 
 

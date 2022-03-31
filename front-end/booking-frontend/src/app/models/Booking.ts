@@ -1,12 +1,14 @@
 import { Hotel } from "./Hotel";
+import { Room } from "./Room";
 
 export class Booking{
     constructor(
-        public id:number,
-        public hotel: Hotel,
+        public Id:number,
+        public HotelId: number,
+        public RoomType: Room,
         public ContactInfo: string,
-        public startTime:string,
-        public endTime:string 
+        public Start:string,
+        public End:string 
     ) { 
        
      }

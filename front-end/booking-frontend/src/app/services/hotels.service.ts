@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Hotel } from '../models/Hotel';
 import { AvailabilitySearch } from '../models/AvailabilitySearch';
+import { Booking } from '../models/Booking';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +27,9 @@ export class HotelsService {
   public checkAvailability(hotelId:number, dates: AvailabilitySearch){
  return this.httpClient.post('http://localhost:2161/Booking/availability/' + hotelId, dates, this.httpOptions);
   }
+  public createBooking(booking:Booking){
+    return this.httpClient.post('http://localhost:2161/Booking/', booking, this.httpOptions);
+     }
 
   
 

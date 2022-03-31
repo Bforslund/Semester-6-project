@@ -5,6 +5,8 @@ import { HotelsService } from '../services/hotels.service';
 import { Hotel } from '../models/Hotel';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AvailabilitySearch } from '../models/AvailabilitySearch';
+import { Booking } from '../models/Booking';
+import { Room } from '../models/Room';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -22,7 +24,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class HotelDetailsComponent implements OnInit {
   id: number | undefined;
-  hotel = new Hotel(1,"","",1);
+  hotel = new Hotel(1,"","",1, "");
+  room = new Room(3, "Economy");
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
@@ -40,10 +43,11 @@ export class HotelDetailsComponent implements OnInit {
 
   ngOnInit(): void {
  this.id = Number(this.route.snapshot.paramMap.get('id'));
+ 
  this.service.getHotelById(this.id)
     .subscribe((data)=>{
-      
      this.hotel = <Hotel>data;
+     console.log(this.hotel)
     });
 
 }
@@ -54,6 +58,18 @@ submit(data:any, hotel:Hotel) {
   var dates = new AvailabilitySearch(data.start,  data.end);
   this.service.checkAvailability(hotel.id, dates).subscribe((res: any)=>{
     this.available = <number>res;
+  },       (error: Response) => {
+      console.log(error);
+  });
+
+}
+
+MakeBooking(data:any) {
+console.log("New booking with " + data);
+  var booking = new Booking(2, this.hotel.id, this.room, data, this.startD, this.endD);
+  console.log(booking);
+  this.service.createBooking(booking).subscribe((res: any)=>{
+    console.log("booking made" + booking);
   },       (error: Response) => {
       console.log(error);
   });

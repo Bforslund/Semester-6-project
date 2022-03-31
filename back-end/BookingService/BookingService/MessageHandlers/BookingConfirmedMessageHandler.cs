@@ -1,14 +1,16 @@
 ﻿
+using Booking_service.Models;
+using BookingService.Database;
 using Shared.Messaging;
 using System;
 using System.Threading.Tasks;
 
 namespace PlayerService.MessageHandlers
 {
-    public class BookingConfirmedMessageHandler : IMessageHandler<string>
+    public class BookingConfirmedMessageHandler : IMessageHandler<Booking>
     {
 
-       
+        MockDB mockDB = new MockDB();
         private readonly IMessagePublisher _messagePublisher;
 
         public BookingConfirmedMessageHandler( IMessagePublisher messagePublisher)
@@ -16,20 +18,17 @@ namespace PlayerService.MessageHandlers
            
             _messagePublisher = messagePublisher;
         }
-        public Task HandleMessageAsync(string messageType, string obj)
+        public Task HandleMessageAsync(string messageType, Booking obj)
         {
            
             if (obj == null)
             {
                 return Task.CompletedTask;
             }
-
-            //check if room is available
-            // add to reserved rooms table
-
-            //send a room reserved event
-            //_messagePublisher.PublishMessageAsync("BookingConfirmed", "confirmed");
-            Console.WriteLine("Booking completed: "+ obj);
+            if(messageType == "BookingConfirmed")
+            {
+                mockDB.ConfirmBooking(obj);
+            }
             return Task.CompletedTask;
         }
     }

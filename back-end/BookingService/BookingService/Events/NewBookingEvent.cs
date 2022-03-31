@@ -1,5 +1,6 @@
 ﻿using System;
 using Booking_service.Models;
+using BookingService.Models;
 
 namespace Booking_service.Events
 {
@@ -9,7 +10,7 @@ namespace Booking_service.Events
         public int BookingNumber => booking.Id;
         public int Hotel => booking.HotelId;
 
-        public string RoomType => booking.RoomType;
+        public Room RoomType => booking.RoomType;
         public string ContactInfo => booking.ContactInfo;
         public DateTime End => booking.End;
         public DateTime Start => booking.Start;

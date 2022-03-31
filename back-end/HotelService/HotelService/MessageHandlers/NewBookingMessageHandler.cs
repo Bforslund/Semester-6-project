@@ -25,11 +25,14 @@ namespace PlayerService.MessageHandlers
                 return Task.CompletedTask;
             }
 
-            //check if room is available
-            // add to reserved rooms table
+            if (database.ReserveRoom(obj))
+            {
+                _messagePublisher.PublishMessageAsync("BookingConfirmed", obj);
+            }
+           
 
             //send a room reserved event
-            _messagePublisher.PublishMessageAsync("BookingConfirmed", "confirmed");
+            
 
             return Task.CompletedTask;
         }

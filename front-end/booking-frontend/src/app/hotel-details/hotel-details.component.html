@@ -33,6 +33,7 @@
             <img src="https://t-cf.bstatic.com/xdata/images/hotel/max1280x900/77802190.jpg?k=2e26b88f833a8581e78fe25eb44769440f8a8dee2d341695a486382fb2caa184&o=&hp=1">
         </div>
         <div class="information">
+            <h1>{{this.hotel.title}}</h1>
             <p>{{this.hotel.info}}</p>
         </div>
         <form class="example-form"> 
@@ -78,7 +79,7 @@
                   Email is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
-              <button>Make reservation</button></div>
+              <button  class="btn btn-primary btn-lg btn-block"  (click)="MakeBooking(emailFormControl.value)">Make reservation</button></div>
 
              
               
