@@ -1,14 +1,15 @@
-export class Hotel{
+import { Room } from "./Room";
 
-  
+export class Hotel{
+    public id: number =  0;
+    public rooms: Room[];
+    public roomsByType: any; 
     constructor(
-        public id:number,
         public title: string,
         public info: string,
-        public rooms:number,
-         public roomsByType:any 
+        
     ) { 
-       
+       this.rooms = [];
      }
 
 }

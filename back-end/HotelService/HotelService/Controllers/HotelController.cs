@@ -39,6 +39,13 @@ namespace HotelService.Controllers
 
             return Ok(database.HotelList);
         }
+        [HttpGet]
+        [Route("getAllReservedRooms")]
+        public ActionResult GetAllReservedRooms()
+        {
+
+            return Ok(database.ReservedRoomsList);
+        }
 
         [HttpGet]
         [Route("{id}")]
@@ -46,6 +53,32 @@ namespace HotelService.Controllers
         {
            Hotel h = database.GetHotelById(id);
             return Ok(h);
+        }
+
+        [HttpPost]
+        [Route("newHotel")]
+        public ActionResult AddHotel(Hotel h)
+        {
+            Hotel newHotel = new Hotel(h.Title, h.Info);
+            database.AddHotel(newHotel);
+            return Ok(newHotel);
+        }
+
+        [HttpPost]
+        [Route("addRooms/{hotelId}")]
+        public ActionResult AddRooms(int hotelId, Room room)
+        {
+            Hotel hotel = database.GetHotelById(hotelId);
+            database.AddRoom(hotel, room);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("rooms/{hotelId}")]
+        public ActionResult GetAllRoomsOfHotel(int hotelId)
+        {
+            Hotel hotel = database.GetHotelById(hotelId);
+            return Ok(database.GetRoomsOfHotel(hotel));
         }
     }
 }

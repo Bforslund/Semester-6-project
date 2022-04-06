@@ -1,6 +1,7 @@
 export class Room{
+    public id:number = 0;
+    public roomType: string = "";
     constructor(
-        public id:number,
-        public roomType: string,) {}
+       ) {}
 
 }
