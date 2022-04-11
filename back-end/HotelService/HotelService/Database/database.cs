@@ -9,27 +9,43 @@ namespace HotelService.Database
     public class database
     {
         public static List<Hotel> HotelList = new List<Hotel>();
-        public static List<Room> ReservedRoomsList = new List<Room>();
+        public static List<ReservedRoom> ReservedRoomsList = new List<ReservedRoom>();
     
 
         public void fillDB()
         {
             Hotel haagHotel = new Hotel(1, "Den Haag Hotel", "This hotel is beautiful located next to the beach");
-            haagHotel.RoomsByType.Add(new Room(1, "Economy"), 8);
-            haagHotel.RoomsByType.Add(new Room(2, "Premium"), 2);
+            haagHotel.Rooms.Add(new Room(2, "Economy"));
+            haagHotel.Rooms.Add(new Room("Economy"));
+            haagHotel.Rooms.Add(new Room("Economy"));
+            haagHotel.Rooms.Add(new Room("Economy"));
 
-            Hotel amsHotel = new Hotel(2, "Amsterdam Hotel", "This hotel is located right next to clubs and is a great fit for the party person");
-            amsHotel.RoomsByType.Add(new Room(3, "Economy"), 6);
-            amsHotel.RoomsByType.Add(new Room(4, "Premium"), 1);
+            haagHotel.Rooms.Add(new Room("Premium"));
+            haagHotel.Rooms.Add(new Room("Premium"));
+            haagHotel.Rooms.Add(new Room("Premium"));
 
-            Hotel rdmHotel = new Hotel(3, "Rotterdam Hotel", "This hotel is located next to the highest buildings");
-            rdmHotel.RoomsByType.Add(new Room(5, "Economy"), 14);
-            rdmHotel.RoomsByType.Add(new Room(6, "Premium"), 1);
+            Hotel amsHotel = new Hotel("Amsterdam Hotel", "This hotel is located right next to clubs and is a great fit for the party person");
+            amsHotel.Rooms.Add(new Room("Economy"));
+            amsHotel.Rooms.Add(new Room("Premium"));
+
+            Hotel rdmHotel = new Hotel("Rotterdam Hotel", "This hotel is located next to the highest buildings");
+            rdmHotel.Rooms.Add(new Room("Economy"));
+            rdmHotel.Rooms.Add(new Room("Premium"));
 
             HotelList.Add(haagHotel);
             HotelList.Add(amsHotel);
             HotelList.Add(rdmHotel);
 
+            //DateTime dt1 = new DateTime(2015, 12, 05);
+            //DateTime dt2 = new DateTime(2015, 12, 10);
+            //DateTime dt3 = new DateTime(2015, 12, 09);
+            //DateTime dt4 = new DateTime(2015, 12, 17);
+       
+
+            //ReservedRoom newReservedRoom = new ReservedRoom(new Room("Economy"), dt1, dt2);
+            //ReservedRoom newReservedRoom2 = new ReservedRoom(new Room("Economy"), dt3, dt4);
+            //ReservedRoomsList.Add(newReservedRoom);
+            //ReservedRoomsList.Add(newReservedRoom2);
         }
 
 
@@ -38,7 +54,11 @@ namespace HotelService.Database
         {
             HotelList.Add(h);
         }
-
+        public void AddRoom(Hotel h, Room r)
+        {
+            h.Rooms.Add(r);
+        }
+       
         public Hotel GetHotelById(int id)
         {
             foreach (Hotel hotel in HotelList)
@@ -52,7 +72,7 @@ namespace HotelService.Database
         }
         public Room GetRoomById(Hotel h, int id)
         {
-            foreach (var room in h.RoomsByType.Keys)
+            foreach (var room in h.Rooms)
             {
                 if (id == room.Id)
                 {
@@ -69,14 +89,19 @@ namespace HotelService.Database
 
         public bool ReserveRoom(Booking b)
         {
-            Hotel h = GetHotelById((int)b.HotelId);
             if (CheckAvailability())
             {
-                ReservedRoomsList.Add(b.RoomType);
-               // h.RoomsByType[b.RoomType] -= 1;
+                Hotel h = GetHotelById(b.HotelId);
+                Room room = GetRoomById(h,b.RoomId);
+                ReservedRoom newReservedRoom = new ReservedRoom(room, b.Start, b.End);
+                ReservedRoomsList.Add(newReservedRoom);
                 return true;
             }
             return false;
+        }
+        public IEnumerable<Room> GetRoomsOfHotel(Hotel h)
+        {
+            return h.Rooms;
         }
     }
 }

@@ -1,0 +1,203 @@
+<div class="container p-0">
+
+
+    <div class="row">
+        <div class="col-md-5 col-xl-4">
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Admin page</h5>
+                </div>
+
+                <div class="list-group list-group-flush" role="tablist">
+                   
+                    <a class="list-group-item list-group-item-action active" data-toggle="list" href="#reservedRooms" role="tab">
+                    Reserved Rooms
+                    </a>
+                    <a *ngIf="this.page == 1; else editRoomsBlock" class="list-group-item list-group-item-action" data-toggle="list" href="#hotelandrooms" role="tab">
+                        Edit/Add rooms
+                    </a>
+                    <ng-template #editRoomsBlock> 
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#hotelandrooms" role="tab">
+                            Add New Hotel
+                            </a>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 col-xl-8">
+            <div class="tab-content">
+                <div class="tab-pane fade " id="hotelandrooms" role="tabpanel">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="mt-5 text-center">
+                            <span *ngIf="notification" class="elementToFadeInAndOut">
+                                <i class="fas fa-check-circle {{notification.class}}"></i>
+                                {{notification.message}}
+                            </span>
+                            </div>
+                            <div class="card-actions float-right">
+                              
+                            </div>
+                            <h5 class="card-title mb-0">Add a new hotel and rooms</h5>
+                        </div>
+                        <div class="card-body">
+
+       
+<div *ngIf="this.page == 1; else addNewHotelBlock" class="container h-100 d-flex justify-content-center">
+    
+    <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-right">Add or Edit rooms</h5>
+        </div>
+        <div class="card2">
+            <div class="card2-body">
+        
+        <div class="grid-table">
+            <div class="thead">
+                <div class="tr">
+                    
+                    <div class="td">Room types</div>                 
+                              
+                                    <!-- <div class="td">Actions</div> -->
+                    <button class="btn btn-outline-success" (click)="addRoomForm()">
+                        <i class="fa fa-plus"></i> New room
+                    </button>
+                </div>
+                <div class="td">
+                    <span *ngIf="notification" >
+                        <i class="fas fa-check-circle {{notification.class}}"></i>
+                        {{notification.message}}
+                    </span>
+                </div>
+            </div>
+        
+        <div class="tbody">
+            
+            <form class="tr" [formGroup]="fg" *ngFor="let fg of roomsForms.controls; let i=index;" (submit)="recordSubmit(fg)">
+                        
+                            <div class="td">
+                                <input class="form-control" formControlName="roomType">
+                            </div>
+                        
+                            <div class="td">
+                              <span>  <button type="submit" class="btn" [disabled]="fg.invalid" [ngClass]="(fg.get('id').value==0)?'btn-success':'btn-outline-dark'">
+                                    <i class="fas fa-save fa-lg"></i>{{fg.get('id').value==0?'Submit':'Update'}}</button>
+                                </span>
+                                    <!-- <span>  <button class="btn btn-light ml-1" (click)="onDelete(fg.get('id').value,i)">
+                                <i class="far fa-trash-alt fa-lg text-danger"></i>
+                                </button></span> -->
+                        
+                            </div>
+            </form>
+         </div>
+        </div>
+        </div>
+        </div>
+        
+       
+    </div>
+
+</div>
+
+<!-- If you register, or log in without user having an hotel. This page will show up -->
+<ng-template #addNewHotelBlock> 
+    <form (ngSubmit)="saveHotel()" #NewHotelForm="ngForm">
+        <div class="p-3 py-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">           
+            <h5 class="text-right">Add a new hotel</h5>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-12"><label class="labels">Hotel name</label>
+                    <input type="text" class="form-control" id="title"
+                        required
+                        [(ngModel)]="this.hotel.title" name="title"
+                        #title="ngModel">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12"><label class="labels">Information about the hotel</label>
+                    <input type="text" class="form-control" id="info"
+                        required
+                        [(ngModel)]="this.hotel.info" name="info"
+                        #info="ngModel">
+                </div>
+            </div>
+           
+    
+        <div class="row mt-3">
+            <div class="col-md-4 text-center"><button class="btn btn-primary profile-button" [disabled]="!NewHotelForm.dirty" type="submit">Save Hotel</button></div>
+        </div> 
+        </div>
+        </form>        
+</ng-template>
+
+
+</div>
+</div>
+
+
+
+</div>
+
+<div class="tab-pane fade show active" id="reservedRooms" role="tabpanel">
+
+<div class="card">
+    <div class="card-header">
+        <div class="mt-5 text-center">
+            <div class="mt-5 text-center">
+                
+                </div>
+    </div>
+        <div class="card-actions float-right">
+          
+        </div>
+        <h5 class="card-title mb-0">Reserved rooms</h5>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> No. </th>
+              <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+          
+            <!-- Name Column -->
+            <ng-container matColumnDef="room">
+              <th mat-header-cell *matHeaderCellDef> Room </th>
+              <td mat-cell *matCellDef="let element"> {{element.room.roomType}} </td>
+            </ng-container>
+            <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef> Start date </th>
+                <td mat-cell *matCellDef="let element"> {{element.startDate}} </td>
+              </ng-container>
+              <ng-container matColumnDef="endDate">
+                <th mat-header-cell *matHeaderCellDef> End date </th>
+                <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
+              </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+         
+      
+          
+    </div>
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+</div>

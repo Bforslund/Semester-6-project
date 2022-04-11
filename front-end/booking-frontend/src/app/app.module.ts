@@ -13,13 +13,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
-
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatRadioModule} from '@angular/material/radio';
 @NgModule({
   declarations: [
     AppComponent,
     HotelDetailsComponent,
     ReservationCalendarComponent,
-    HotelFrontpageComponent
+    HotelFrontpageComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,9 @@ import {MatInputModule} from '@angular/material/input';
     ReactiveFormsModule,
     MatNativeDateModule,
     HttpClientModule,
-    MatInputModule
+    MatInputModule,
+    MatTableModule,
+    MatRadioModule
   ],
   providers: [],
   bootstrap: [AppComponent]

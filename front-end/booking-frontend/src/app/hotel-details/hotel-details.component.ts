@@ -24,8 +24,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class HotelDetailsComponent implements OnInit {
   id: number | undefined;
-  hotel = new Hotel(1,"","",1, "");
-  room = new Room(3, "Economy");
+  hotel = new Hotel("", "");
+  room = new Room();
+  roomsAvailable:Room[] = []
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
@@ -54,19 +55,28 @@ export class HotelDetailsComponent implements OnInit {
 
 
 
-submit(data:any, hotel:Hotel) {
+submit(data:any) {
   var dates = new AvailabilitySearch(data.start,  data.end);
-  this.service.checkAvailability(hotel.id, dates).subscribe((res: any)=>{
+  this.service.checkAvailability(this.hotel.id, dates).subscribe((res: any)=>{
     this.available = <number>res;
   },       (error: Response) => {
       console.log(error);
   });
+  if(this.available > 0){
+    this.service.getAvailableRooms(this.hotel.id, dates).subscribe((res: any)=>{
+      this.roomsAvailable = <Room[]>res;
+      console.log(this.roomsAvailable);
+    },       (error: Response) => {
+        console.log(error);
+    });
+  }
 
 }
 
 MakeBooking(data:any) {
 console.log("New booking with " + data);
-  var booking = new Booking(2, this.hotel.id, this.room, data, this.startD, this.endD);
+console.log("New booking with " + this.hotel, this.room.id);
+  var booking = new Booking(this.hotel.id, this.room.id, data, this.startD, this.endD);
   console.log(booking);
   this.service.createBooking(booking).subscribe((res: any)=>{
     console.log("booking made" + booking);

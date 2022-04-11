@@ -44,6 +44,15 @@ namespace Booking_service.Controllers
         }
 
         [HttpPost]
+        [Route("availableRooms/{hotelId}")]
+        public ActionResult GetAllAvailableRooms(int hotelId, AvailabilitySearch availabilitySearch)
+        {
+            List<Room> AvailableRooms = mockdb.GetAvailableRooms(hotelId, availabilitySearch.start, availabilitySearch.end);
+            return Ok(AvailableRooms);
+        }
+
+
+        [HttpPost]
         [Route("availability/{hotelId}")]
         public ActionResult Checkavailability(int hotelId, AvailabilitySearch availabilitySearch)
         {
@@ -56,9 +65,9 @@ namespace Booking_service.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBooking(Booking booking)
         {
-
-            MockDB.BookingList.Add(booking);
-            await _messagePublisher.PublishMessageAsync("NewBooking", booking);
+            Booking newBooking = new Booking(booking.HotelId, booking.ContactInfo, booking.Start, booking.End, booking.RoomId);
+            MockDB.BookingList.Add(newBooking);
+            await _messagePublisher.PublishMessageAsync("NewBooking", newBooking);
 
             return Ok();
         }

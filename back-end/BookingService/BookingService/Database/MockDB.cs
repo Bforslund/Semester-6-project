@@ -17,35 +17,40 @@ namespace BookingService.Database
         public void FillDB()
         {
 
-
             Hotel haagHotel = new Hotel(1, "Den Haag Hotel", "This hotel is beautiful located next to the beach");
-            haagHotel.RoomsByType.Add(new Room(1, "Economy"), 8);
-            haagHotel.RoomsByType.Add(new Room(2, "Premium"), 2);
+            haagHotel.Rooms.Add(new Room(2, "Economy"));
+            haagHotel.Rooms.Add(new Room("Economy"));
+            haagHotel.Rooms.Add(new Room("Economy"));
+            haagHotel.Rooms.Add(new Room("Economy"));
 
-            Hotel amsHotel = new Hotel(2, "Amsterdam Hotel", "This hotel is located right next to clubs and is a great fit for the party person");
-            amsHotel.RoomsByType.Add(new Room(3, "Economy"), 6);
-            amsHotel.RoomsByType.Add(new Room(4, "Premium"), 1);
+            haagHotel.Rooms.Add(new Room("Premium"));
+            haagHotel.Rooms.Add(new Room("Premium"));
+            haagHotel.Rooms.Add(new Room("Premium"));
 
-            Hotel rdmHotel = new Hotel(3, "Rotterdam Hotel", "This hotel is located next to the highest buildings");
-            rdmHotel.RoomsByType.Add(new Room(5, "Economy"), 14);
-            rdmHotel.RoomsByType.Add(new Room(6, "Premium"), 1);
+            Hotel amsHotel = new Hotel("Amsterdam Hotel", "This hotel is located right next to clubs and is a great fit for the party person");
+            amsHotel.Rooms.Add(new Room("Economy"));
+            amsHotel.Rooms.Add(new Room("Premium"));
+
+            Hotel rdmHotel = new Hotel("Rotterdam Hotel", "This hotel is located next to the highest buildings");
+            rdmHotel.Rooms.Add(new Room("Economy"));
+            rdmHotel.Rooms.Add(new Room("Premium"));
 
             HotelList.Add(haagHotel);
             HotelList.Add(amsHotel);
             HotelList.Add(rdmHotel);
 
-            DateTime dt1 = new DateTime(2015, 12, 05);
-            DateTime dt2 = new DateTime(2015, 12, 10);
-            DateTime dt3 = new DateTime(2015, 12, 09);
-            DateTime dt4 = new DateTime(2015, 12, 17);
-            DateTime dt5 = new DateTime(2015, 02, 02);
-            DateTime dt6 = new DateTime(2015, 02, 04);
-            DateTime start1 = new DateTime(2015, 12, 03);
-            DateTime end2 = new DateTime(2015, 12, 12);
+            //DateTime dt1 = new DateTime(2015, 12, 05);
+            //DateTime dt2 = new DateTime(2015, 12, 10);
+            //DateTime dt3 = new DateTime(2015, 12, 09);
+            //DateTime dt4 = new DateTime(2015, 12, 17);
+            //DateTime dt5 = new DateTime(2015, 02, 02);
+            //DateTime dt6 = new DateTime(2015, 02, 04);
+            //DateTime start1 = new DateTime(2015, 12, 03);
+            //DateTime end2 = new DateTime(2015, 12, 12);
 
-            //Booking b1 = new Booking(1, rdmHotel, "jfds", dt4, dt3);
-            //Booking b2 = new Booking(2, rdmHotel, "jfds", dt2, dt1);
-            //Booking b3 = new Booking(3, rdmHotel, "jfds", dt6, dt5);
+            //Booking b1 = new Booking(1, 1, "jfds", System.DateTime.Now, System.DateTime.Now, 2);
+            //Booking b2 = new Booking(2, 1, "jfds", dt2, dt1, 2);
+            //Booking b3 = new Booking(3, 1, "jfds", dt6, dt5, 2);
             //BookingList.Add(b1);
             //BookingList.Add(b2);
             //BookingList.Add(b3);
@@ -63,7 +68,39 @@ namespace BookingService.Database
                     !((endNewBooking < booking.Start && startNewBooking < booking.Start) ||
                     (booking.End < startNewBooking && booking.Start < startNewBooking)));
 
-            return hotel.Rooms - amountOfTakenRooms;
+            return hotel.RoomsByType.Sum(x => x.Value) - amountOfTakenRooms;
+        }
+
+        public List<Room> GetAvailableRooms(int hotelId, DateTime startNewBooking, DateTime endNewBooking)
+        {
+            var hotel = HotelList.Single(h => h.Id == hotelId);
+            var bookings = GetAllBookingsOfOneHotel(hotel);
+            List<int> roomsIDs = new List<int>();
+            List<Room> availableRooms = new List<Room>();
+            foreach (Room room in hotel.Rooms)
+            {
+                roomsIDs.Add(room.Id);
+            }
+
+            List<Booking> TakenRoomsAtCertainDates = bookings.FindAll(
+                booking =>
+                    !((endNewBooking < booking.Start && startNewBooking < booking.Start) ||
+                    (booking.End < startNewBooking && booking.Start < startNewBooking)));
+
+            foreach(Booking b in TakenRoomsAtCertainDates)
+            {
+                if (roomsIDs.Contains(b.RoomId))
+                {
+                    roomsIDs.Remove(b.RoomId);
+                }
+            }
+
+            foreach(int id in roomsIDs)
+            {
+                Room r = GetRoomById(id,hotel);
+                availableRooms.Add(r);
+            }
+            return availableRooms;
         }
 
         public List<Booking> GetAllBookingsOfOneHotel(Hotel h)
@@ -91,9 +128,21 @@ namespace BookingService.Database
             return null;
         }
 
-        public Room GetRoomById(Hotel h, int id)
+        public Room GetRoomById(int id, Hotel h)
         {
-            foreach (var room in h.RoomsByType.Keys)
+            foreach (Room room in h.Rooms)
+            {
+                if (id == room.Id)
+                {
+                    return room;
+                }
+            }
+            return null;
+        }
+
+        public Room GetReservedRoomById(int id)
+        {
+            foreach (var room in ReservedRoomsList)
             {
                 if (id == room.Id)
                 {

@@ -3,6 +3,7 @@ import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Hotel } from '../models/Hotel';
 import { AvailabilitySearch } from '../models/AvailabilitySearch';
 import { Booking } from '../models/Booking';
+import { Room } from '../models/Room';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,9 @@ export class HotelsService {
   public getAllHotels(){
     return this.httpClient.get('http://localhost:43572/Hotel/hotels', this.httpOptions);
   }
-
+  public getAllReservedRooms(){
+    return this.httpClient.get('http://localhost:43572/Hotel/getAllReservedRooms', this.httpOptions);
+  }
 
   public getHotelById(id: number){
     return this.httpClient.get('http://localhost:43572/Hotel/' + id, this.httpOptions);
@@ -29,9 +32,22 @@ export class HotelsService {
   }
   public createBooking(booking:Booking){
     return this.httpClient.post('http://localhost:2161/Booking/', booking, this.httpOptions);
+  }
+
+  public addNewHotel(hotel:Hotel){
+    return this.httpClient.post('http://localhost:43572/Hotel/newHotel/', hotel, this.httpOptions);
      }
 
+  public getAllRoomsOfHotel(hotelId:number){
+    return this.httpClient.get('http://localhost:43572/Hotel/rooms/' + hotelId, this.httpOptions);
+  }
   
-
+  public addNewRoom(hotelId:number, room:Room){
+    return this.httpClient.post('http://localhost:43572/Hotel/addRooms/' + hotelId, room, this.httpOptions);
+     }
+  public getAvailableRooms(hotelId:number, dates: AvailabilitySearch){
+      return this.httpClient.post('http://localhost:2161/Booking/availableRooms/' + hotelId,dates, this.httpOptions);
+    }
+   
 
 }
