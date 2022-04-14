@@ -3,6 +3,7 @@ stages:
   - test-HotelService 
   - build-BookingService
   - test-BookingService
+  - sonarqube
 
 build-BookingService:  
   stage: build-BookingService
@@ -29,6 +30,7 @@ test-HotelService:
      - "dotnet test"
 
 sonarqube-check:
+  stage: sonarqube
   image: mcr.microsoft.com/dotnet/core/sdk:latest
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
