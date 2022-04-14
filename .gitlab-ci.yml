@@ -3,7 +3,6 @@ stages:
   - test-HotelService 
   - build-BookingService
   - test-BookingService
-  - sonarqube-check
 
 build-BookingService:  
   stage: build-BookingService
