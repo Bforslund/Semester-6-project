@@ -1,17 +1,30 @@
 stages:   
-  - build-HotelService       # List of stages for jobs, and their order of execution
+  - build-HotelService
+  - test-HotelService 
   - build-BookingService
-  - test
+  - test-BookingService
 
-build-BookingService:       # This job runs in the build stage, which runs first.
+build-BookingService:  
   stage: build-BookingService
   script:
      - "cd ./back-end/BookingService"
      - "dotnet build"
 
-build-HotelService:       # This job runs in the build stage, which runs first.
+test-BookingService:   
+  stage: test-BookingService
+  script:
+     - "cd ./back-end/BookingService"
+     - "dotnet test"
+
+build-HotelService: 
   stage: build-HotelService
   script:
      - "cd ./back-end/HotelService"
      - "dotnet build"
+
+test-HotelService:   
+  stage: test-HotelService
+  script:
+     - "cd ./back-end/HotelService"
+     - "dotnet test"
 
