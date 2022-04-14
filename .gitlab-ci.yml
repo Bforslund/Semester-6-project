@@ -8,6 +8,6 @@ build-job:       # This job runs in the build stage, which runs first.
      - "cd ./back-end/BookingService"
      - "dotnet build"
      - "cd .."
-     - "cd ./back-end/HotelService"
+     - "cd HotelService"
      - "dotnet build"
 
