@@ -12,14 +12,9 @@ namespace HotelService.Models
         public string Title { get; set; }
         public string Info { get; set; }
         public List<Room> Rooms { get; set; } = new List<Room>();
-        Random rnd = new Random();  
         public IDictionary<string, int> RoomsByType => CalculateRoomsByType();
 
-        public Hotel(string title, string info)
-        {
-            Id = rnd.Next(1, 999);
-            Title = title;
-            Info = info;
+        public Hotel() { 
         }
         public Hotel(int id, string title, string info)
         {

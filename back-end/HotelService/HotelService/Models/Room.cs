@@ -13,18 +13,15 @@ namespace HotelService.Models
 
         public int Id { get; set; }
 
-        public string RoomType { get => roomType; set => roomType = value; }
-      Random rnd = new Random();    
+        public string RoomType { get => roomType; set => roomType = value; } 
+
         public Room(string roomType)
         {
-            Id = rnd.Next(1, 999);
             RoomType = roomType;
-           
         }
-        public Room(int id, string roomType)
+
+        public Room()
         {
-            Id = id;
-            RoomType = roomType;
 
         }
 
