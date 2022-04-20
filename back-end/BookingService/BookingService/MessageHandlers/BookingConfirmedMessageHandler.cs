@@ -1,8 +1,7 @@
 ﻿
 using Booking_service.Models;
-using BookingService.Database;
+using BookingService.Repository;
 using Shared.Messaging;
-using System;
 using System.Threading.Tasks;
 
 namespace PlayerService.MessageHandlers
@@ -10,26 +9,26 @@ namespace PlayerService.MessageHandlers
     public class BookingConfirmedMessageHandler : IMessageHandler<Booking>
     {
 
-        MockDB mockDB = new MockDB();
-        private readonly IMessagePublisher _messagePublisher;
-
-        public BookingConfirmedMessageHandler( IMessagePublisher messagePublisher)
+       private readonly AvalabilityService _avalabilityService;
+        public BookingConfirmedMessageHandler(ApplicationDbContext context)
         {
-           
-            _messagePublisher = messagePublisher;
+            _avalabilityService = new AvalabilityService(context);
         }
-        public Task HandleMessageAsync(string messageType, Booking obj)
+        public async Task HandleMessageAsync(string messageType, Booking obj)
         {
-           
-            if (obj == null)
+            var booking = await _avalabilityService.GetBookingByIdAsync(obj.Id);
+            if (booking == null)
             {
-                return Task.CompletedTask;
+                return;
             }
             if(messageType == "BookingConfirmed")
             {
-                mockDB.ConfirmBooking(obj);
+               await _avalabilityService.ConfirmBookingAsync(booking);
+
             }
-            return Task.CompletedTask;
+           
         }
+
+       
     }
 }

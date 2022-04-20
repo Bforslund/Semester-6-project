@@ -1,6 +1,8 @@
 using HotelService.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using MySql.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,11 +10,12 @@ using Microsoft.OpenApi.Models;
 using PlayerService.MessageHandlers;
 using Shared;
 
+
 namespace HotelService
 {
     public class Startup
     {
-        database mockDB = new database();
+       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,7 +26,10 @@ namespace HotelService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<ApplicationDbContext>(options =>
+              options.UseMySQL(
+                  Configuration.GetConnectionString("DefaultConnection")));
+           
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {

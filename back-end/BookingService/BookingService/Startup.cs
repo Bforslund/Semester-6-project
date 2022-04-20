@@ -1,22 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using RabbitMQ.Client;
-using System.Text;
-using Booking_service.Models;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Shared;
 using PlayerService.MessageHandlers;
+using Microsoft.EntityFrameworkCore;
+using BookingService.Repository;
 
 namespace BookingService
 {
@@ -32,7 +23,9 @@ namespace BookingService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<ApplicationDbContext>(options =>
+                                            options.UseMySQL(
+          Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
@@ -43,6 +36,7 @@ namespace BookingService
             {
                 builder.WithHandler<BookingConfirmedMessageHandler>("BookingConfirmed");
             });
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

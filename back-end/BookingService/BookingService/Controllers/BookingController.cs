@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Booking_service.Events;
+﻿using System.Threading.Tasks;
 using Booking_service.Models;
-using BookingService.Database;
 using BookingService.Models;
+using BookingService.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Shared.Messaging;
 
 namespace Booking_service.Controllers
@@ -16,48 +12,38 @@ namespace Booking_service.Controllers
     [Route("[controller]")]
     public class BookingController : ControllerBase
     {
-
         private readonly IMessagePublisher _messagePublisher;
-        MockDB mockdb = new MockDB();
-
-        public BookingController(IMessagePublisher messagePublisher)
+        AvalabilityService avalabilityService;
+        public BookingController(IMessagePublisher messagePublisher, ApplicationDbContext context)
         {
+            avalabilityService = new AvalabilityService(context);
             _messagePublisher = messagePublisher;
+            
         }
-
-        [HttpGet]
-        [Route("fillDB")]
-        public ActionResult fillMockDB()
-        {
-            mockdb.FillDB();
-
-            return Ok();
-        }
-
 
         [HttpGet]
         [Route("bookings")]
-        public ActionResult GetAllBookings()
+        public async Task<ActionResult> GetAllBookingsAsync()
         {
-           
-            return Ok(MockDB.BookingList);
+            var bookings = await avalabilityService.GetBookingsAsync();
+            if (bookings == null) return NotFound();
+            return Ok(bookings);
         }
 
         [HttpPost]
         [Route("availableRooms/{hotelId}")]
-        public ActionResult GetAllAvailableRooms(int hotelId, AvailabilitySearch availabilitySearch)
+        public async Task<ActionResult> GetAllAvailableRoomsAsync(int hotelId, AvailabilitySearch availabilitySearch)
         {
-            List<Room> AvailableRooms = mockdb.GetAvailableRooms(hotelId, availabilitySearch.start, availabilitySearch.end);
+            var AvailableRooms = await avalabilityService.GetAvailableRoomsAsync(hotelId, availabilitySearch.start, availabilitySearch.end);
             return Ok(AvailableRooms);
         }
 
 
         [HttpPost]
         [Route("availability/{hotelId}")]
-        public ActionResult Checkavailability(int hotelId, AvailabilitySearch availabilitySearch)
+        public async Task<ActionResult> CheckavailabilityAsync(int hotelId, AvailabilitySearch availabilitySearch)
         {
-
-           int roomsFree = mockdb.AmountOfAvailableRooms(hotelId, availabilitySearch.start, availabilitySearch.end);
+            int roomsFree = await avalabilityService.AmountOfAvailableRoomsAsync(hotelId, availabilitySearch.start, availabilitySearch.end);
             return Ok(roomsFree);
         }
 
@@ -65,11 +51,9 @@ namespace Booking_service.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBooking(Booking booking)
         {
-            Booking newBooking = new Booking(booking.HotelId, booking.ContactInfo, booking.Start, booking.End, booking.RoomId);
-            MockDB.BookingList.Add(newBooking);
+            Booking newBooking = await avalabilityService.CreateBookingAsync(booking);
             await _messagePublisher.PublishMessageAsync("NewBooking", newBooking);
-
-            return Ok();
+            return Ok(newBooking.Id);
         }
     }
 }

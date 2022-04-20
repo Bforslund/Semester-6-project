@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using HotelService.Database;
 using HotelService.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelService.Controllers
 {
@@ -13,72 +11,67 @@ namespace HotelService.Controllers
     [Route("[controller]")]
     public class HotelController : ControllerBase
     {
-        database database = new database();
+ 
        
-
-        private readonly ILogger<HotelController> _logger;
-        
-        public HotelController(ILogger<HotelController> logger)
+        private ApplicationDbContext _context;
+        public HotelController(ApplicationDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
-        [HttpGet]
-        [Route("fillDB")]
-        public ActionResult fillMockDB()
-        {
-            database.fillDB();
-
-            return NoContent();
-        }
-
 
         [HttpGet]
         [Route("hotels")]
-        public ActionResult GetAllHotels()
+        public async Task<ActionResult> GetAllHotelsAsync()
         {
-
-            return Ok(database.HotelList);
+            var hotels = await _context.Hotels.Include(h => h.Rooms).ToListAsync();
+            if (hotels == null) return NotFound();
+            return Ok(hotels);
         }
         [HttpGet]
         [Route("getAllReservedRooms")]
-        public ActionResult GetAllReservedRooms()
+        public async Task<ActionResult> GetAllReservedRoomsAsync()
         {
-
-            return Ok(database.ReservedRoomsList);
+            var reservedRooms = await _context.ReservedRooms.ToListAsync();
+            if (reservedRooms == null) return NotFound();
+            return Ok(reservedRooms);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult GetHotelById(int id)
+        public async Task<ActionResult> GetHotelByIdAsync(int id)
         {
-           Hotel h = database.GetHotelById(id);
-            return Ok(h);
+            var hotel = await _context.Hotels.Where(a => a.Id == id).Include(h => h.Rooms).FirstOrDefaultAsync();
+            if (hotel == null) return NotFound();
+            return Ok(hotel);
         }
 
         [HttpPost]
         [Route("newHotel")]
-        public ActionResult AddHotel(Hotel h)
+        public async Task<ActionResult> AddHotelAsync(Hotel h)
         {
-            Hotel newHotel = new Hotel(h.Title, h.Info);
-            database.AddHotel(newHotel);
-            return Ok(newHotel);
+            _context.Hotels.Add(h);
+            await _context.SaveChangesAsync();
+            return Ok(h.Id);
         }
 
         [HttpPost]
         [Route("addRooms/{hotelId}")]
-        public ActionResult AddRooms(int hotelId, Room room)
+        public async Task<ActionResult> AddRoomsAsync(int hotelId, Room room)
         {
-            Hotel hotel = database.GetHotelById(hotelId);
-            database.AddRoom(hotel, room);
+            var hotel = await _context.Hotels.Where(a => a.Id == hotelId).FirstOrDefaultAsync();
+            hotel.Rooms.Add(room);
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
         [HttpGet]
         [Route("rooms/{hotelId}")]
-        public ActionResult GetAllRoomsOfHotel(int hotelId)
+        public async Task<ActionResult> GetAllRoomsOfHotelAsync(int hotelId)
         {
-            Hotel hotel = database.GetHotelById(hotelId);
-            return Ok(database.GetRoomsOfHotel(hotel));
+            var hotel = await _context.Hotels.Where(a => a.Id == hotelId).Include(h => h.Rooms).FirstOrDefaultAsync();
+            return Ok(hotel.Rooms);
         }
+     
+
     }
 }
