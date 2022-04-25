@@ -1,8 +1,3 @@
-using Booking_service.Models;
-using BookingService.Database;
-using BookingService.Models;
-using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace BookingService.Tests;

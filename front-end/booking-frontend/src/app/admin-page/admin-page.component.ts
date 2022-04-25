@@ -17,7 +17,7 @@ export class AdminPageComponent implements OnInit {
   hotel: Hotel = new Hotel("", "");
   roomsForms : FormArray = this.fb.array([]);
   roomsList = [];
-  displayedColumns: string[] = ['id', 'room', 'startDate', 'endDate'];
+  displayedColumns: string[] = ['id', 'roomId', 'startDate', 'endDate'];
   dataSource:ReservedRoom[] = [];
   ngOnInit(): void {
    this.hotel.id = 1;

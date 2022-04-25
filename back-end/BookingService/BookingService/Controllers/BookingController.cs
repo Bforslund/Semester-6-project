@@ -14,9 +14,11 @@ namespace Booking_service.Controllers
     {
         private readonly IMessagePublisher _messagePublisher;
         AvalabilityService avalabilityService;
+        HotelManagerService managerService;
         public BookingController(IMessagePublisher messagePublisher, ApplicationDbContext context)
         {
             avalabilityService = new AvalabilityService(context);
+            managerService = new HotelManagerService(context);
             _messagePublisher = messagePublisher;
             
         }
@@ -54,6 +56,15 @@ namespace Booking_service.Controllers
             Booking newBooking = await avalabilityService.CreateBookingAsync(booking);
             await _messagePublisher.PublishMessageAsync("NewBooking", newBooking);
             return Ok(newBooking.Id);
+        }
+
+        [HttpGet]
+        [Route("hotels")]
+        public async Task<ActionResult> GetAllHotelsAsync()
+        {
+            var hotels = await managerService.GetAllHotelsAsync();
+            if (hotels == null) return NotFound();
+            return Ok(hotels);
         }
     }
 }

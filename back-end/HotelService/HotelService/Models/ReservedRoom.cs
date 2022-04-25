@@ -6,17 +6,17 @@ namespace HotelService.Models
     {
         public int Id { get; set; }
       
-        public Room Room { get; set; }
+        public int RoomId { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public ReservedRoom()
         {
 
         }
-        public ReservedRoom(Room room, DateTime startDate, DateTime endDate)
+        public ReservedRoom(int room, DateTime startDate, DateTime endDate)
         {
           
-            Room = room;
+            RoomId = room;
             this.startDate = startDate;
             this.endDate = endDate;
         }

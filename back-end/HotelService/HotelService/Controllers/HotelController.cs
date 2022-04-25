@@ -4,6 +4,7 @@ using HotelService.Database;
 using HotelService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Shared.Messaging;
 
 namespace HotelService.Controllers
 {
@@ -11,12 +12,13 @@ namespace HotelService.Controllers
     [Route("[controller]")]
     public class HotelController : ControllerBase
     {
- 
-       
+        private readonly IMessagePublisher _messagePublisher;
+
         private ApplicationDbContext _context;
-        public HotelController(ApplicationDbContext context)
+        public HotelController(IMessagePublisher messagePublisher, ApplicationDbContext context)
         {
             _context = context;
+            _messagePublisher = messagePublisher;
         }
 
         [HttpGet]
@@ -51,6 +53,7 @@ namespace HotelService.Controllers
         {
             _context.Hotels.Add(h);
             await _context.SaveChangesAsync();
+            await _messagePublisher.PublishMessageAsync("NewHotel", h);
             return Ok(h.Id);
         }
 
@@ -61,6 +64,7 @@ namespace HotelService.Controllers
             var hotel = await _context.Hotels.Where(a => a.Id == hotelId).FirstOrDefaultAsync();
             hotel.Rooms.Add(room);
             await _context.SaveChangesAsync();
+            await _messagePublisher.PublishMessageAsync("AddRoom", new AddRoomEvent(hotel.Id, room));
             return Ok();
         }
 

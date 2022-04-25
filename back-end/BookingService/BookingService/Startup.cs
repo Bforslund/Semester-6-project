@@ -8,6 +8,7 @@ using Shared;
 using PlayerService.MessageHandlers;
 using Microsoft.EntityFrameworkCore;
 using BookingService.Repository;
+using BookingService.MessageHandlers;
 
 namespace BookingService
 {
@@ -34,7 +35,9 @@ namespace BookingService
             services.AddCors();
             services.AddMessagePublishing("BookingService", builder =>
             {
-                builder.WithHandler<BookingConfirmedMessageHandler>("BookingConfirmed");
+                builder.WithHandler<BookingConfirmedMessageHandler>("BookingConfirmed")
+                .WithHandler<HotelMessageHandler>("NewHotel")
+                .WithHandler<RoomMessageHandler>("AddRoom");
             });
       
         }
