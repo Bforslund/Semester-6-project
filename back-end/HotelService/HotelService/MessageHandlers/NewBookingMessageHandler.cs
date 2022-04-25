@@ -30,30 +30,14 @@ namespace PlayerService.MessageHandlers
           
             if (CheckAvailability())
             {
-                var hotel = await _context.Hotels.Where(a => a.Id == obj.HotelId).Include(h => h.Rooms).FirstOrDefaultAsync();
 
-                Room room = GetRoomById(hotel, obj.RoomId);
-                ReservedRoom newReservedRoom = new ReservedRoom(room, obj.Start, obj.End);
+                ReservedRoom newReservedRoom = new ReservedRoom(obj.RoomId, obj.Start, obj.End);
                 _context.ReservedRooms.Add(newReservedRoom);
                 
                 await _messagePublisher.PublishMessageAsync("BookingConfirmed", obj);
             }
-
-            //send a room reserved event
             await _context.SaveChangesAsync();
 
-        }
-
-        public Room GetRoomById(Hotel h, int id)
-        {
-            foreach (var room in h.Rooms)
-            {
-                if (id == room.Id)
-                {
-                    return room;
-                }
-            }
-            return null;
         }
 
         public bool CheckAvailability()

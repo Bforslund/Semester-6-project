@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookingService.Repository
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+           //Database.EnsureDeleted();
+           Database.EnsureCreated();
         }
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<ReservedRoom> ReservedRooms { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
     }

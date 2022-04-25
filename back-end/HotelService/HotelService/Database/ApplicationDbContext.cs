@@ -8,6 +8,7 @@ namespace HotelService.Database
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         public DbSet<Hotel> Hotels { get; set; }

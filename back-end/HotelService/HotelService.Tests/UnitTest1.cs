@@ -1,4 +1,4 @@
-using HotelService.Database;
+
 using HotelService.Models;
 using Xunit;
 
@@ -6,7 +6,6 @@ namespace HotelService.Tests;
 
 public class UnitTest1
 {
-    database database = new database();
     [Fact]
     public void TestIfRoomWasReserved()
     {

@@ -24,7 +24,6 @@ namespace PlayerService.MessageHandlers
             if(messageType == "BookingConfirmed")
             {
                await _avalabilityService.ConfirmBookingAsync(booking);
-
             }
            
         }
