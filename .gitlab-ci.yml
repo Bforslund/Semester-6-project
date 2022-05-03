@@ -31,6 +31,7 @@ hotel-sonarqube-check:
   variables:
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   script: 
+      - "cd ./back-end/HotelService"
       - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
       - "dotnet build"
       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
@@ -42,6 +43,7 @@ booking-sonarqube-check:
   variables:
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   script: 
+      - "cd ./back-end/BookingService"
       - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
       - "dotnet build"
       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
