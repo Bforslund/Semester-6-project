@@ -28,3 +28,15 @@ test-HotelService:
   script:
      - "cd ./back-end/HotelService"
      - "dotnet test"
+
+sonarqube-check:
+  stage: sonarqube
+  variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script: 
+      - "dotnet sonarscanner begin /k:\"Semester-6\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet build"
+      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+  only:
+    - main # or the name of your main branch
+
