@@ -1,40 +1,48 @@
 stages:   
-  - build-HotelService
-  - test-HotelService 
-  - build-BookingService
-  - test-BookingService
-  - sonarqube
+  - HotelService
+  - BookingService
 
 build-BookingService:  
-  stage: build-BookingService
+  stage: BookingService
   script:
      - "cd ./back-end/BookingService"
      - "dotnet build"
 
 test-BookingService:   
-  stage: test-BookingService
+  stage: BookingService
   script:
      - "cd ./back-end/BookingService"
      - "dotnet test"
 
 build-HotelService: 
-  stage: build-HotelService
+  stage: HotelService
   script:
      - "cd ./back-end/HotelService"
      - "dotnet build"
 
 test-HotelService:   
-  stage: test-HotelService
+  stage: HotelService
   script:
      - "cd ./back-end/HotelService"
      - "dotnet test"
 
-sonarqube-check:
-  stage: sonarqube
+hotel-sonarqube-check:
+  stage: HotelService
   variables:
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   script: 
-      - "dotnet sonarscanner begin /k:\"Semester-6\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet build"
+      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+  only:
+    - main # or the name of your main branch
+
+booking-sonarqube-check:
+  stage: BookingService
+  variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script: 
+      - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
       - "dotnet build"
       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
   only:
