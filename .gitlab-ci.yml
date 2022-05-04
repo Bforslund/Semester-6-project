@@ -6,7 +6,8 @@ build-BookingService:
   stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "dotnet msbuild"
+     - "dotnet restore myproject.sln /nodereuse:false"
+     - "dotnet build"
 
 test-BookingService:   
   stage: BookingService
@@ -18,7 +19,8 @@ build-HotelService:
   stage: HotelService
   script:
      - "cd ./back-end/HotelService"
-     - "dotnet msbuild"
+     - "dotnet restore myproject.sln /nodereuse:false"
+     - "dotnet build"
 
 test-HotelService:   
   stage: HotelService
