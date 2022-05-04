@@ -6,7 +6,7 @@ build-BookingService:
   stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "dotnet build"
+     - "dotnet build /nodereuse:false"
 
 test-BookingService:   
   stage: BookingService
