@@ -6,7 +6,7 @@ build-BookingService:
   stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "dotnet restore myproject.sln /nodereuse:false"
+     - "dotnet build-server shutdown"
      - "dotnet build"
 
 test-BookingService:   
@@ -19,7 +19,7 @@ build-HotelService:
   stage: HotelService
   script:
      - "cd ./back-end/HotelService"
-     - "dotnet restore myproject.sln /nodereuse:false"
+     - "dotnet build-server shutdown"
      - "dotnet build"
 
 test-HotelService:   
