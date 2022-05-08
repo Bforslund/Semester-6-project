@@ -14,5 +14,7 @@ namespace HotelService.Database
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<ReservedRoom> ReservedRooms { get; set; }
 
+        public DbSet<HotelAdmin> Admins { get; set; }
+
     }
 }

@@ -10,9 +10,9 @@ namespace PlayerService.MessageHandlers
     {
 
        private readonly AvalabilityService _avalabilityService;
-        public BookingConfirmedMessageHandler(ApplicationDbContext context)
+        public BookingConfirmedMessageHandler(AvalabilityService avalabilityService)
         {
-            _avalabilityService = new AvalabilityService(context);
+            _avalabilityService = avalabilityService;
         }
         public async Task HandleMessageAsync(string messageType, Booking obj)
         {

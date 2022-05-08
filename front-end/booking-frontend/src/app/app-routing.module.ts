@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {HotelDetailsComponent} from './hotel-details/hotel-details.component';
 import {HotelFrontpageComponent} from './hotel-frontpage/hotel-frontpage.component';
 import {AdminPageComponent} from './admin-page/admin-page.component';
+import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   {
   path: 'details/:id',
@@ -15,6 +16,10 @@ const routes: Routes = [
 {
   path: 'adminpage',
   component: AdminPageComponent
+},
+{
+  path: 'login',
+  component: LoginComponent
 },
 ];
 

@@ -11,7 +11,6 @@ RUN dotnet restore "HotelService/HotelService.csproj"
 COPY . .
 WORKDIR "/src/HotelService"
 RUN dotnet build "HotelService.csproj" -c Release -o /app/build
-RUN dotnet test "HotelService.csproj"
 
 FROM build AS publish
 RUN dotnet publish "HotelService.csproj" -c Release -o /app/publish

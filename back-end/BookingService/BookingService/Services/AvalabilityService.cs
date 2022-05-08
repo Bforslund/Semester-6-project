@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Booking_service.Models;
 using BookingService.Models;
 using Microsoft.EntityFrameworkCore;
-using Shared.Messaging;
 
 namespace BookingService.Repository
 {
@@ -13,11 +12,14 @@ namespace BookingService.Repository
     {
         
         private readonly ApplicationDbContext _context;
+        private readonly CipherService _cipherService;
 
-        public AvalabilityService(ApplicationDbContext context)
+        public AvalabilityService(ApplicationDbContext context, CipherService cipherService)
         {
             _context = context;
+            _cipherService = cipherService;
         }
+
         public async Task<int> AmountOfAvailableRoomsAsync(int hotelId, DateTime startNewBooking, DateTime endNewBooking)
         {
             var hotel = await _context.Hotels.Where(a => a.Id == hotelId).Include(h => h.Rooms).FirstOrDefaultAsync();
@@ -48,7 +50,9 @@ namespace BookingService.Repository
 
         public async Task<Booking> GetBookingByIdAsync(int id)
         {
-            return await _context.Bookings.FirstOrDefaultAsync(booking => booking.Id == id);
+            Booking b = await _context.Bookings.FirstOrDefaultAsync(booking => booking.Id == id);
+            b.ContactInfo = _cipherService.Decrypt(b.ContactInfo);
+            return b;
         }
 
         public async Task<List<Booking>> GetBookingsAsync()
@@ -68,12 +72,19 @@ namespace BookingService.Repository
 
         public async Task<Booking> CreateBookingAsync(Booking booking)
         {
-            Booking newBooking = new Booking(booking.HotelId, booking.ContactInfo, booking.Start, booking.End, booking.RoomId);
+            Booking newBooking = new Booking(booking.HotelId, _cipherService.Encrypt(booking.ContactInfo), booking.Start, booking.End, booking.RoomId);
             _context.Bookings.Add(newBooking);
             await _context.SaveChangesAsync();
             return newBooking;
         }
-       
+        public async Task<Booking> UpdateBookingAsync(Booking updatedBooking)
+        {
+            var existingBooking = _context.Bookings.First(a => a.Id == updatedBooking.Id);
+            existingBooking.ContactInfo = _cipherService.Encrypt(updatedBooking.ContactInfo);
+            await _context.SaveChangesAsync();
+            return existingBooking;
+        }
+
     }
        
        

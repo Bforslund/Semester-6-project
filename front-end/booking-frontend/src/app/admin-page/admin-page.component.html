@@ -46,7 +46,7 @@
                         <div class="card-body">
 
        
-<div *ngIf="this.page == 1; else addNewHotelBlock" class="container h-100 d-flex justify-content-center">
+<div *ngIf="this.hotel.id >= 1; else addNewHotelBlock" class="container h-100 d-flex justify-content-center">
     
     <div class="p-3 py-5">
         <div class="d-flex justify-content-between align-items-center mb-3">

@@ -18,35 +18,35 @@ export class HotelsService {
   };
 
   public getAllHotels(){
-    return this.httpClient.get('http://localhost:43572/Hotel/hotels', this.httpOptions);
+    return this.httpClient.get('http://hotel.bea.local:9080/Hotel/hotels', this.httpOptions);
   }
   public getAllReservedRooms(){
-    return this.httpClient.get('http://localhost:43572/Hotel/getAllReservedRooms', this.httpOptions);
+    return this.httpClient.get('http://hotel.bea.local:9080/Hotel/getAllReservedRooms', this.httpOptions);
   }
 
   public getHotelById(id: number){
-    return this.httpClient.get('http://localhost:43572/Hotel/' + id, this.httpOptions);
+    return this.httpClient.get('http://hotel.bea.local:9080/Hotel/' + id, this.httpOptions);
   }
   public checkAvailability(hotelId:number, dates: AvailabilitySearch){
- return this.httpClient.post('http://localhost:2161/Booking/availability/' + hotelId, dates, this.httpOptions);
+ return this.httpClient.post('http://booking.bea.local:9080/Booking/availability/' + hotelId, dates, this.httpOptions);
   }
   public createBooking(booking:Booking){
-    return this.httpClient.post('http://localhost:2161/Booking/', booking, this.httpOptions);
+    return this.httpClient.post('http://booking.bea.local:9080/Booking/', booking, this.httpOptions);
   }
 
   public addNewHotel(hotel:Hotel){
-    return this.httpClient.post('http://localhost:43572/Hotel/newHotel/', hotel, this.httpOptions);
+    return this.httpClient.post('http://hotel.bea.local:9080/Hotel/newHotel/', hotel, this.httpOptions);
      }
 
   public getAllRoomsOfHotel(hotelId:number){
-    return this.httpClient.get('http://localhost:43572/Hotel/rooms/' + hotelId, this.httpOptions);
+    return this.httpClient.get('http://hotel.bea.local:9080/Hotel/rooms/' + hotelId, this.httpOptions);
   }
   
   public addNewRoom(hotelId:number, room:Room){
-    return this.httpClient.post('http://localhost:43572/Hotel/addRooms/' + hotelId, room, this.httpOptions);
+    return this.httpClient.post('http://hotel.bea.local:9080/Hotel/addRooms/' + hotelId, room, this.httpOptions);
      }
   public getAvailableRooms(hotelId:number, dates: AvailabilitySearch){
-      return this.httpClient.post('http://localhost:2161/Booking/availableRooms/' + hotelId,dates, this.httpOptions);
+      return this.httpClient.post('http://booking.bea.local:9080/Booking/availableRooms/' + hotelId,dates, this.httpOptions);
     }
    
 

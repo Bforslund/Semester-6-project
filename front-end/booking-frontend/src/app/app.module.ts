@@ -16,13 +16,15 @@ import {MatInputModule} from '@angular/material/input';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatRadioModule} from '@angular/material/radio';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
     HotelDetailsComponent,
     ReservationCalendarComponent,
     HotelFrontpageComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

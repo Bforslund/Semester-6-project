@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HotelService.Database;
 using HotelService.Models;
+using HotelService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared.Messaging;
@@ -14,7 +15,8 @@ namespace HotelService.Controllers
     {
         private readonly IMessagePublisher _messagePublisher;
 
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+       // private readonly HotelService _hotelService;
         public HotelController(IMessagePublisher messagePublisher, ApplicationDbContext context)
         {
             _context = context;

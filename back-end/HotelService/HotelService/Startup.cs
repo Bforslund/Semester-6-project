@@ -9,7 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PlayerService.MessageHandlers;
 using Shared;
-
+using HotelService.Repository;
+using HotelService.Services;
 
 namespace HotelService
 {
@@ -39,6 +40,13 @@ namespace HotelService
             {
                 builder.WithHandler<NewBookingMessageHandler>("NewBooking");
             });
+            services.AddDataProtection();
+
+            services.AddScoped<AdminService>()
+                .AddScoped<CipherService>();
+
+            services.Configure<JWT>(Configuration.GetSection("JWT"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

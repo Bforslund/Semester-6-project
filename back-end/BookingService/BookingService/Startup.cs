@@ -26,7 +26,7 @@ namespace BookingService
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                                             options.UseMySQL(
-          Configuration.GetConnectionString("DefaultConnection")));
+            Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
@@ -39,7 +39,13 @@ namespace BookingService
                 .WithHandler<HotelMessageHandler>("NewHotel")
                 .WithHandler<RoomMessageHandler>("AddRoom");
             });
-      
+            services.AddDataProtection();
+
+            services
+                .AddScoped<AvalabilityService>()
+                .AddScoped<HotelManagerService>()
+                .AddScoped<CipherService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

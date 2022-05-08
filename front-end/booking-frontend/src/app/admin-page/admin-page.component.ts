@@ -4,6 +4,7 @@ import { Hotel } from '../models/Hotel';
 import { HotelsService } from '../services/hotels.service';
 import { FormArray, FormBuilder, Validators, FormGroup  } from '@angular/forms';
 import { ReservedRoom } from '../models/ReservedRoom';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-admin-page',
@@ -12,19 +13,19 @@ import { ReservedRoom } from '../models/ReservedRoom';
 })
 export class AdminPageComponent implements OnInit {
   notification:any = null; 
-  constructor(private service: HotelsService, private router : Router, public fb: FormBuilder,) { }
-  page:number = 1;
+  constructor(private service: HotelsService, private router : Router, public fb: FormBuilder,private Aservice: AdminService) { }
+  page:number = 0;
   hotel: Hotel = new Hotel("", "");
   roomsForms : FormArray = this.fb.array([]);
   roomsList = [];
   displayedColumns: string[] = ['id', 'roomId', 'startDate', 'endDate'];
   dataSource:ReservedRoom[] = [];
   ngOnInit(): void {
-   this.hotel.id = 1;
+   this.hotel.id = this.Aservice.getHotelIdOfLoggedIn();
+  
    this.service.getAllReservedRooms()
    .subscribe((data)=>{
     this.dataSource = <ReservedRoom[]>data;
-    console.log(this.dataSource);
  });
     this.service.getAllRoomsOfHotel(this.hotel.id).subscribe(
       res => {
@@ -42,6 +43,7 @@ export class AdminPageComponent implements OnInit {
         }
       }
     );
+    
   }
 
 saveHotel() {
@@ -58,22 +60,6 @@ showNotification() {
       this.notification = { class: 'text-primary', message: 'Added!' };
 
 }
-// showNotification(category:any) {
-//   switch (category) {
-//     case 'insert':
-//       this.notification = { class: 'text-success', message: 'saved!' };
-//       break;
-//     case 'update':
-//       this.notification = { class: 'text-primary', message: 'updated!' };
-//       break;
-//     case 'delete':
-//       this.notification = { class: 'text-danger', message: 'deleted!' };
-//       break;
-
-//     default:
-//       break;
-//   }
-// }
 
 addRoomForm(){
   this.roomsForms.push(this.fb.group({
@@ -83,7 +69,6 @@ addRoomForm(){
 }
 
 recordSubmit(fg: FormGroup) {
-  console.log(fg.value);
   if (fg.value.id == 0)
     this.service.addNewRoom(this.hotel.id, fg.value).subscribe(
       (res: any) => {

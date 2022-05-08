@@ -77,12 +77,12 @@ MakeBooking(data:any) {
 console.log("New booking with " + data);
 console.log("New booking with " + this.hotel, this.room.id);
   var booking = new Booking(this.hotel.id, this.room.id, data, this.startD, this.endD);
-  console.log(booking);
-  this.service.createBooking(booking).subscribe((res: any)=>{
-    console.log("booking made" + booking);
-  },       (error: Response) => {
-      console.log(error);
-  });
+  console.log(booking.ContactInfo);
+  // this.service.createBooking(booking).subscribe((res: any)=>{
+  //   console.log("booking made" + booking);
+  // },       (error: Response) => {
+  //     console.log(error);
+  // });
 
 }
 
