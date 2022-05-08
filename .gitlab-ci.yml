@@ -1,30 +1,54 @@
 stages:   
-  - build-HotelService
-  - test-HotelService 
-  - build-BookingService
-  - test-BookingService
-  - sonarqube
+  - HotelService
+  - BookingService
 
 build-BookingService:  
-  stage: build-BookingService
+  stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "dotnet build"
+     - "dotnet build /nodereuse:false"
 
 test-BookingService:   
-  stage: test-BookingService
+  stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "dotnet test"
+     - "dotnet test /nodereuse:false"
 
 build-HotelService: 
-  stage: build-HotelService
+  stage: HotelService
   script:
      - "cd ./back-end/HotelService"
-     - "dotnet build"
+     - "dotnet build /nodereuse:false"
 
 test-HotelService:   
-  stage: test-HotelService
+  stage: HotelService
   script:
      - "cd ./back-end/HotelService"
-     - "dotnet test"
+     - "dotnet test /nodereuse:false"
+
+hotel-sonarqube-check:
+  stage: HotelService
+  variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script: 
+      - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
+      - "cd ./back-end/HotelService"
+      - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet build /nodereuse:false"
+      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+  only:
+    - main # or the name of your main branch
+
+booking-sonarqube-check:
+  stage: BookingService
+  variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script: 
+      - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
+      - "cd ./back-end/BookingService"
+      - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet build /nodereuse:false"
+      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+  only:
+    - main # or the name of your main branch
+
