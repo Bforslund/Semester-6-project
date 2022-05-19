@@ -84,5 +84,14 @@ namespace Booking_service.Controllers
             if (hotels == null) return NotFound();
             return Ok(hotels);
         }
+
+
+        [HttpGet]
+        [Route("hello")]
+        public ActionResult GetHello()
+        {
+            
+            return Ok("Hello");
+        }
     }
 }
