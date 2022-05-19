@@ -14,6 +14,15 @@ test-BookingService:
      - "cd ./back-end/BookingService"
      - "dotnet test /nodereuse:false"
 
+deploy-BookingService:
+  stage: BookingService
+  script:
+     - "cd ./back-end/BookingService"
+     - "docker build -t bforslund/semester-6-booking:latest ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-booking:latest"
+
+
 build-HotelService: 
   stage: HotelService
   script:
@@ -25,6 +34,14 @@ test-HotelService:
   script:
      - "cd ./back-end/HotelService"
      - "dotnet test /nodereuse:false"
+
+deploy-HotelService:
+  stage: HotelService
+  script:
+     - "cd ./back-end/HotelService"
+     - "docker build -t bforslund/semester-6-hotel:latest ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-hotel:latest"
 
 # hotel-sonarqube-check:
 #   stage: HotelService
