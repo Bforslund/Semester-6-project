@@ -18,9 +18,9 @@ deploy-BookingService:
   stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:2 ."
+     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:3 ."
      - "docker login -u $docker_username -p $docker_password"
-     - "docker push bforslund/semester-6-booking:2"
+     - "docker push bforslund/semester-6-booking:3"
 
 
 build-HotelService: 

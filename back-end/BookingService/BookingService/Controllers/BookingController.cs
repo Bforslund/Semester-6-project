@@ -91,7 +91,7 @@ namespace Booking_service.Controllers
         public ActionResult GetHello()
         {
             
-            return Ok("Hello");
+            return Ok("Test2");
         }
     }
 }
