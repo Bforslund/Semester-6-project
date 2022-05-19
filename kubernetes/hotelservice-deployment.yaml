@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hotelservice
-        image: bforslund/semester-6-hotel:1
+        image: bforslund/semester-6-hotel:latest
         imagePullPolicy: Always
         env:
         - name: ASPNETCORE_ENVIRONMENT
