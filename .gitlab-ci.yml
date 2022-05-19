@@ -17,8 +17,8 @@ test-BookingService:
 deploy-BookingService:
   stage: BookingService
   script:
-     - "cd ./back-end/BookingService"
-     - "docker build -f .\BookingService\Dockerfile -t bookingservice:latest -t bforslund/bookingservice:latest ."
+     - "cd ./back-end/BookingService/BookingService"
+     - "docker build -t bookingservice:latest -t bforslund/bookingservice:latest ."
      - "docker login -u $docker_username -p $docker_password"
      - "docker push bforslund/semester-6-booking:latest"
 
@@ -38,8 +38,8 @@ test-HotelService:
 deploy-HotelService:
   stage: HotelService
   script:
-     - "cd ./back-end/HotelService"
-     - "docker build -f .\HotelService\Dockerfile -t hotelservice:latest -t bforslund/hotelservice:dev ."
+     - "cd ./back-end/HotelService/HotelService"
+     - "docker build -t hotelservice:latest -t bforslund/hotelservice:dev ."
      - "docker login -u $docker_username -p $docker_password"
      - "docker push bforslund/semester-6-hotel:latest"
 
