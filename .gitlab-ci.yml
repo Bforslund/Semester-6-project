@@ -14,6 +14,15 @@ test-BookingService:
      - "cd ./back-end/BookingService"
      - "dotnet test /nodereuse:false"
 
+deploy-BookingService:
+  stage: BookingService
+  script:
+     - "cd ./back-end/BookingService"
+     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:latest ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-booking:latest"
+
+
 build-HotelService: 
   stage: HotelService
   script:
@@ -26,29 +35,37 @@ test-HotelService:
      - "cd ./back-end/HotelService"
      - "dotnet test /nodereuse:false"
 
-hotel-sonarqube-check:
+deploy-HotelService:
   stage: HotelService
-  variables:
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  script: 
-      - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
-      - "cd ./back-end/HotelService"
-      - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
-      - "dotnet build /nodereuse:false"
-      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
-  only:
-    - main # or the name of your main branch
+  script:
+     - "cd ./back-end/HotelService"
+     - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:latest ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-hotel:latest"
 
-booking-sonarqube-check:
-  stage: BookingService
-  variables:
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-  script: 
-      - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
-      - "cd ./back-end/BookingService"
-      - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
-      - "dotnet build /nodereuse:false"
-      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
-  only:
-    - main # or the name of your main branch
+# hotel-sonarqube-check:
+#   stage: HotelService
+#   variables:
+#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+#   script: 
+#       - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
+#       - "cd ./back-end/HotelService"
+#       - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+#       - "dotnet build /nodereuse:false"
+#       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+#   only:
+#     - main # or the name of your main branch
+
+# booking-sonarqube-check:
+#   stage: BookingService
+#   variables:
+#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+#   script: 
+#       - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
+#       - "cd ./back-end/BookingService"
+#       - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+#       - "dotnet build /nodereuse:false"
+#       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+#   only:
+#     - main # or the name of your main branch
 
