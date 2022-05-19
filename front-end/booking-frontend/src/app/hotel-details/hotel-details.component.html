@@ -39,7 +39,7 @@
           {{r.roomType}}
         </mat-radio-button>
       </mat-radio-group>
-      <div>Your favorite season is: {{this.room.id}}</div>
+    
        <form>
           
            <h1>
@@ -61,6 +61,7 @@
                   Email is <strong>required</strong>
                 </mat-error>
               </mat-form-field>
+              <p>By making this booking you consent to storing your email address!</p>
               <button  class="btn btn-primary btn-lg btn-block"  (click)="MakeBooking(emailFormControl.value)">Make reservation</button></div>
 
              

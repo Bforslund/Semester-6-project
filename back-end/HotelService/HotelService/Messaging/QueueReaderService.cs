@@ -41,9 +41,9 @@ namespace Shared.Messaging
         {
             // Create a channel for this reader
             _channel = _connection.CreateChannel();
-            _channel.ExchangeDeclare("hotelbooking", ExchangeType.Fanout, true, false, null);
-            _channel.QueueDeclare("HotelService");
-            _channel.QueueBind("HotelService", "hotelbooking", "#");
+            //_channel.ExchangeDeclare("hotelbooking", ExchangeType.Fanout, true, false, null);
+            //_channel.QueueDeclare("HotelService");
+            //_channel.QueueBind("HotelService", "hotelbooking", "#");
 
 
             // Create a consumer for the queue. This is a method implemented by RabbitMQ.Client to easily subscribe to incoming messages on this queue

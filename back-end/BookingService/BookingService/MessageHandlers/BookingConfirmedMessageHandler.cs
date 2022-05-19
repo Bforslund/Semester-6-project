@@ -16,14 +16,14 @@ namespace PlayerService.MessageHandlers
         }
         public async Task HandleMessageAsync(string messageType, Booking obj)
         {
-            var booking = await _avalabilityService.GetBookingByIdAsync(obj.Id);
-            if (booking == null)
+          
+            if (obj == null)
             {
                 return;
             }
             if(messageType == "BookingConfirmed")
             {
-               await _avalabilityService.ConfirmBookingAsync(booking);
+               await _avalabilityService.ConfirmBookingAsync(obj);
             }
            
         }

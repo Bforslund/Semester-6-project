@@ -16,7 +16,7 @@ namespace HotelService.Controllers
         private readonly IMessagePublisher _messagePublisher;
 
         private readonly ApplicationDbContext _context;
-       // private readonly HotelService _hotelService;
+        private readonly HotelManageService _hotelService;
         public HotelController(IMessagePublisher messagePublisher, ApplicationDbContext context)
         {
             _context = context;

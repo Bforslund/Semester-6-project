@@ -60,30 +60,40 @@ namespace BookingService.Repository
             return await _context.Bookings.ToListAsync();
         }
 
-        public async Task ConfirmBookingAsync(Booking booking)
+        public async Task ConfirmBookingAsync(Booking obj)
         {
-            var available = await AmountOfAvailableRoomsAsync(booking.HotelId, booking.Start, booking.End);
+            var available = await AmountOfAvailableRoomsAsync(obj.HotelId, obj.Start, obj.End);
+            Booking b = await _context.Bookings.FirstOrDefaultAsync(booking => booking.Id == obj.Id);
             if (available > 1)
             {
-                booking.Confirmed = true;
+                b.Confirmed = true;
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task<Booking> CreateBookingAsync(Booking booking)
         {
-            Booking newBooking = new Booking(booking.HotelId, _cipherService.Encrypt(booking.ContactInfo), booking.Start, booking.End, booking.RoomId);
-            _context.Bookings.Add(newBooking);
+            var contactinfo = _cipherService.Encrypt(booking.ContactInfo);
+           booking.ContactInfo = contactinfo;
+            _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
-            return newBooking;
+            return booking;
         }
         public async Task<Booking> UpdateBookingAsync(Booking updatedBooking)
         {
             var existingBooking = _context.Bookings.First(a => a.Id == updatedBooking.Id);
             existingBooking.ContactInfo = _cipherService.Encrypt(updatedBooking.ContactInfo);
             await _context.SaveChangesAsync();
+
             return existingBooking;
         }
+        //public async Task<Booking> BookingByEmail(string email)
+        //{
+        //    var booking = _context.Bookings.First(a => a.ContactInfo == email);
+        //    existingBooking.ContactInfo = _cipherService.Encrypt(updatedBooking.ContactInfo);
+        //    await _context.SaveChangesAsync();
+        //    return existingBooking;
+        //}
 
     }
        
