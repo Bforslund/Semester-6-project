@@ -3,46 +3,46 @@ stages:
   - BookingService
   - Update-git
 
-# build-BookingService:  
-#   stage: BookingService
-#   script:
-#      - "cd ./back-end/BookingService"
-#      - "dotnet build /nodereuse:false"
+build-BookingService:  
+  stage: BookingService
+  script:
+     - "cd ./back-end/BookingService"
+     - "dotnet build /nodereuse:false"
 
-# test-BookingService:   
-#   stage: BookingService
-#   script:
-#      - "cd ./back-end/BookingService"
-#      - "dotnet test /nodereuse:false"
+test-BookingService:   
+  stage: BookingService
+  script:
+     - "cd ./back-end/BookingService"
+     - "dotnet test /nodereuse:false"
 
-# deploy-BookingService:
-#   stage: BookingService
-#   script:
-#      - "cd ./back-end/BookingService"
-#      - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:$CI_JOB_ID ."
-#      - "docker login -u $docker_username -p $docker_password"
-#      - "docker push bforslund/semester-6-booking:$CI_JOB_ID"
+deploy-BookingService:
+  stage: BookingService
+  script:
+     - "cd ./back-end/BookingService"
+     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:$CI_JOB_ID ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-booking:$CI_JOB_ID"
 
 
-# build-HotelService: 
-#   stage: HotelService
-#   script:
-#      - "cd ./back-end/HotelService"
-#      - "dotnet build /nodereuse:false"
+build-HotelService: 
+  stage: HotelService
+  script:
+     - "cd ./back-end/HotelService"
+     - "dotnet build /nodereuse:false"
 
-# test-HotelService:   
-#   stage: HotelService
-#   script:
-#      - "cd ./back-end/HotelService"
-#      - "dotnet test /nodereuse:false"
+test-HotelService:   
+  stage: HotelService
+  script:
+     - "cd ./back-end/HotelService"
+     - "dotnet test /nodereuse:false"
 
-# deploy-HotelService:
-#   stage: HotelService
-#   script:
-#      - "cd ./back-end/HotelService"
-#      - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:$CI_JOB_ID ."
-#      - "docker login -u $docker_username -p $docker_password"
-#      - "docker push bforslund/semester-6-hotel:$CI_JOB_ID"
+deploy-HotelService:
+  stage: HotelService
+  script:
+     - "cd ./back-end/HotelService"
+     - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:$CI_JOB_ID ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-hotel:$CI_JOB_ID"
 
 
 update-git-repo:
