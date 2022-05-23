@@ -30,7 +30,7 @@ deploy-BookingService:
      - git commit -m "[ci skip] [skip ci]Update kubernetes deployment to booking:$CI_JOB_ID"
      - git remote rm origin
      - git remote add origin https://gitlab_runner:$GITLAB_RUNNER_PASSWORD@git.fhict.nl/I431685/semester-6-project.git
-     - git push origin HEAD:$CI_COMMIT_REF_NAMEr
+     - git push origin HEAD:$CI_COMMIT_REF_NAME
 
 
 build-HotelService: 
