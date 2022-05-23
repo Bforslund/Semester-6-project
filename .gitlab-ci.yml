@@ -60,7 +60,7 @@ deploy-HotelService:
      - git commit -m "[ci skip] [skip ci] Update kubernetes deployment to hotel:$CI_JOB_ID"
      - git remote rm origin
      - git remote add origin https://git.fhict.nl/I431685/semester-6-project.git
-     - git push
+     - "git push"
 
 
 # hotel-sonarqube-check:
