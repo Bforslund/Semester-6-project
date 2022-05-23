@@ -45,7 +45,7 @@ deploy-HotelService:
     #  - "docker login -u $docker_username -p $docker_password"
     #  - "docker push bforslund/semester-6-hotel:$CI_JOB_ID"
      - "cd ../../kubernetes"
-     - yq -i '.spec.template.spec.containers[0].image = ""bforslund/semester-6-hotel:$CI_JOB_ID""' hotelservice-deployment.yaml
+     - yq -i '.spec.template.spec.containers[0].image = ""bforslund/semester-6-hotel:$($CI_JOB_ID)""' hotelservice-deployment.yaml
      - "cat hotelservice-deployment.yaml" 
 
 # hotel-sonarqube-check:
