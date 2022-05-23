@@ -29,7 +29,7 @@ deploy-BookingService:
      - git add bookingservice-deployment.yaml
      - git commit -m "Update kubernetes deployment to booking:$CI_JOB_ID"
      #- git remote rm origin && git remote add origin git@gitlab.com:$CI_PROJECT_PATH.git
-     - git push origin HEAD:$CI_COMMIT_REF_NAME # Pushes to the same branch as the trigger
+     - git push # Pushes to the same branch as the trigger
 
 
 # build-HotelService: 
