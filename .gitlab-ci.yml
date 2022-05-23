@@ -22,7 +22,8 @@ deploy-BookingService:
      - "docker login -u $docker_username -p $docker_password"
      - "docker push bforslund/semester-6-booking:$CI_JOB_ID"
      - "cd ../../kubernetes"
-     - yq -i '.spec.template.spec.containers[0].image = ""bforslund/semester-6-booking:$CI_JOB_ID""' bookingservice-deployment.yaml
+     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-booking:$CI_JOB_ID"""""
+     - yq -i "$commandArgument" bookingservice-deployment.yaml
 
 
 build-HotelService: 
@@ -45,7 +46,8 @@ deploy-HotelService:
     #  - "docker login -u $docker_username -p $docker_password"
     #  - "docker push bforslund/semester-6-hotel:$CI_JOB_ID"
      - "cd ../../kubernetes"
-     - yq -i '.spec.template.spec.containers[0].image = ""bforslund/semester-6-hotel:$($CI_JOB_ID)""' hotelservice-deployment.yaml
+     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotel:$CI_JOB_ID"""""
+     - yq -i "$commandArgument" hotelservice-deployment.yaml
      - "cat hotelservice-deployment.yaml" 
 
 # hotel-sonarqube-check:
