@@ -32,17 +32,17 @@ deploy-BookingService:
      - git push origin HEAD:$CI_COMMIT_REF_NAME # Pushes to the same branch as the trigger
 
 
-build-HotelService: 
-  stage: HotelService
-  script:
-     - "cd ./back-end/HotelService"
-     - "dotnet build /nodereuse:false"
+# build-HotelService: 
+#   stage: HotelService
+#   script:
+#      - "cd ./back-end/HotelService"
+#      - "dotnet build /nodereuse:false"
 
-test-HotelService:   
-  stage: HotelService
-  script:
-     - "cd ./back-end/HotelService"
-     - "dotnet test /nodereuse:false"
+# test-HotelService:   
+#   stage: HotelService
+#   script:
+#      - "cd ./back-end/HotelService"
+#      - "dotnet test /nodereuse:false"
 
 deploy-HotelService:
   stage: HotelService
@@ -54,9 +54,13 @@ deploy-HotelService:
      - "cd ../../kubernetes"
      - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotel:$CI_JOB_ID"""""
      - yq -i "$commandArgument" hotelservice-deployment.yaml 
+     - git config --global user.email "${CI_EMAIL}"
+     - git config --global user.name "${CI_USERNAME}"
      - git add hotelservice-deployment.yaml
      - git commit -m "Update kubernetes deployment to hotel:$CI_JOB_ID"
-     - git push
+      #- git remote rm origin && git remote add origin git@gitlab.com:$CI_PROJECT_PATH.git
+     - git push origin HEAD:$CI_COMMIT_REF_NAME # Pushes to the same branch as the trigger
+
 
 # hotel-sonarqube-check:
 #   stage: HotelService
