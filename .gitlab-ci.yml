@@ -18,9 +18,9 @@ deploy-BookingService:
   stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:3 ."
+     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:$CI_JOB_ID ."
      - "docker login -u $docker_username -p $docker_password"
-     - "docker push bforslund/semester-6-booking:3"
+     - "docker push bforslund/semester-6-booking:$CI_JOB_ID"
 
 
 build-HotelService: 
@@ -39,9 +39,9 @@ deploy-HotelService:
   stage: HotelService
   script:
      - "cd ./back-end/HotelService"
-     - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:latest ."
+     - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:$CI_JOB_ID ."
      - "docker login -u $docker_username -p $docker_password"
-     - "docker push bforslund/semester-6-hotel:latest"
+     - "docker push bforslund/semester-6-hotel:$CI_JOB_ID"
 
 # hotel-sonarqube-check:
 #   stage: HotelService
