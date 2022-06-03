@@ -1,6 +1,7 @@
 stages:   
   - HotelService
   - BookingService
+  - Update-git
 
 build-BookingService:  
   stage: BookingService
@@ -18,9 +19,9 @@ deploy-BookingService:
   stage: BookingService
   script:
      - "cd ./back-end/BookingService"
-     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:3 ."
+     - "docker build -f ./BookingService/Dockerfile -t bforslund/semester-6-booking:$CI_JOB_ID ."
      - "docker login -u $docker_username -p $docker_password"
-     - "docker push bforslund/semester-6-booking:3"
+     - "docker push bforslund/semester-6-booking:$CI_JOB_ID"
 
 
 build-HotelService: 
@@ -39,9 +40,29 @@ deploy-HotelService:
   stage: HotelService
   script:
      - "cd ./back-end/HotelService"
-     - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:latest ."
+     - "docker build -f ./HotelService/Dockerfile -t bforslund/semester-6-hotel:$CI_JOB_ID ."
      - "docker login -u $docker_username -p $docker_password"
-     - "docker push bforslund/semester-6-hotel:latest"
+     - "docker push bforslund/semester-6-hotel:$CI_JOB_ID"
+
+
+update-git-repo:
+  stage: Update-git
+  script:
+     - "cd ./back-end/HotelService"
+     - "cd ../../kubernetes"
+     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-booking:$CI_JOB_ID"""""
+     - yq -i "$commandArgument" bookingservice-deployment.yaml
+     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotel:$CI_JOB_ID"""""
+     - yq -i "$commandArgument" hotelservice-deployment.yaml 
+     - git config --global user.email "${GITLAB_USER_EMAIL}"
+     - git config --global user.name "${GITLAB_USER_NAME}"
+     - git add bookingservice-deployment.yaml
+     - git commit -m "[ci skip] [skip ci]Update kubernetes deployment to booking:$CI_JOB_ID"
+     - git add hotelservice-deployment.yaml
+     - git commit -m "[ci skip] [skip ci] Update kubernetes deployment to hotel:$CI_JOB_ID"
+     - git remote rm origin
+     - git remote add origin https://gitlab_runner:$GITLAB_RUNNER_PASSWORD@git.fhict.nl/I431685/semester-6-project.git
+     - git push origin HEAD:$CI_COMMIT_REF_NAME
 
 # hotel-sonarqube-check:
 #   stage: HotelService

@@ -15,13 +15,13 @@ spec:
         app: bookingservice
     spec:
       containers:
-      - name: bookingservice
-        image: bforslund/semester-6-booking:3
-        imagePullPolicy: Always
-        env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: Development
-        - name: RABBITMQ_HOSTNAME
-          value: rabbitmq-client.default.svc.cluster.local
-        ports:
-        - containerPort: 80
+        - name: bookingservice
+          image: bforslund/semester-6-booking:408853
+          imagePullPolicy: Always
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: RABBITMQ_HOSTNAME
+              value: rabbitmq-client.default.svc.cluster.local
+          ports:
+            - containerPort: 80
