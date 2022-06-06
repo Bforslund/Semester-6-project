@@ -25,3 +25,8 @@ spec:
               value: rabbitmq-client.default.svc.cluster.local
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+            limits:
+              cpu: 200m

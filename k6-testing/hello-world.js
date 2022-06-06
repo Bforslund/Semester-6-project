@@ -6,5 +6,5 @@ export const options = {
   };
 
 export default function(){
-    http.get('https://hotel.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io/Hotel/hotels');
+    http.get('https://booking.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io/Booking/hello');
 }
