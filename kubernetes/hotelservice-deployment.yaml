@@ -25,6 +25,12 @@ spec:
               value: rabbitmq-client.default.svc.cluster.local
             - name: ConnectionStrings__DefaultConnection
               value: Server=bookingdatabase.mysql.database.azure.com;UserID = adminbea;Password=Password1;Database=bookingdatabase;
+            - name: AppConfiguration__AccessKey
+              value: AKIAXR57OWGB5IKRZNHO
+            - name: AppConfiguration__SecretKey
+              value: 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
+            - name: AppConfiguration__BucketName
+              value: hotelpictures
           ports:
             - containerPort: 80
           resources:

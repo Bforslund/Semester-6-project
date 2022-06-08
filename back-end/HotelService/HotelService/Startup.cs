@@ -11,6 +11,7 @@ using PlayerService.MessageHandlers;
 using Shared;
 using HotelService.Repository;
 using HotelService.Services;
+using HotelService.Configuration;
 
 namespace HotelService
 {
@@ -36,16 +37,20 @@ namespace HotelService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelService", Version = "v1" });
             });
-            services.AddMessagePublishing("HotelService", builder =>
-            {
-                builder.WithHandler<NewBookingMessageHandler>("NewBooking");
-            });
+            //services.AddMessagePublishing("HotelService", builder =>
+            //{
+            //    builder.WithHandler<NewBookingMessageHandler>("NewBooking");
+            //});
             services.AddDataProtection();
 
             services.AddScoped<AdminService>()
-                .AddScoped<CipherService>();
+                .AddScoped<CipherService>()
+                .AddScoped<IAws3Services, Aws3Services>();
 
             services.Configure<JWT>(Configuration.GetSection("JWT"));
+            var amazonS3Section = Configuration.GetSection(nameof(AppConfiguration));
+            var amazonS3Settings = amazonS3Section.Get<AppConfiguration>();
+            services.AddSingleton<IAppConfiguration>(amazonS3Settings);
 
         }
 

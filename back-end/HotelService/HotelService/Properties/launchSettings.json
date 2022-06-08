@@ -14,7 +14,10 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AppConfiguration__AccessKey": "AKIAXR57OWGB5IKRZNHO",
+        "AppConfiguration__SecretKey": "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",
+        "AppConfiguration__BucketName": "hotelpictures"
       }
     },
     "HotelService": {
@@ -22,7 +25,10 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AppConfiguration__AccessKey": "AKIAXR57OWGB5IKRZNHO",
+        "AppConfiguration__SecretKey": "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",
+        "AppConfiguration__BucketName": "hotelpictures"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:5000"
