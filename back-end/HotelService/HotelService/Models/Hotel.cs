@@ -11,7 +11,7 @@ namespace HotelService.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Info { get; set; }
-        public List<Room> Rooms { get; set; } = new List<Room>();
+        public List<RoomProjection> Rooms { get; set; } = new List<RoomProjection>();
         public IDictionary<string, int> RoomsByType => CalculateRoomsByType();
 
         public Hotel() { 

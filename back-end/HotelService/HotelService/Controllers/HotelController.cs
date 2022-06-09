@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HotelService.Database;
+using HotelService.EventStore;
 using HotelService.Models;
 using HotelService.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +37,10 @@ namespace HotelService.Controllers
         [Route("getAllReservedRooms")]
         public async Task<ActionResult> GetAllReservedRoomsAsync()
         {
-            var reservedRooms = await _context.ReservedRooms.ToListAsync();
-            if (reservedRooms == null) return NotFound();
-            return Ok(reservedRooms);
+            //var reservedRooms = await _context.ReservedRooms.ToListAsync();
+            //if (reservedRooms == null) return NotFound();
+            await Task.Delay(1);
+            return Ok("hi");
         }
 
         [HttpGet]
@@ -60,7 +64,7 @@ namespace HotelService.Controllers
 
         [HttpPost]
         [Route("addRooms/{hotelId}")]
-        public async Task<ActionResult> AddRoomsAsync(int hotelId, Room room)
+        public async Task<ActionResult> AddRoomsAsync(int hotelId, RoomProjection room)
         {
             var hotel = await _context.Hotels.Where(a => a.Id == hotelId).FirstOrDefaultAsync();
             hotel.Rooms.Add(room);
@@ -76,7 +80,47 @@ namespace HotelService.Controllers
             var hotel = await _context.Hotels.Where(a => a.Id == hotelId).Include(h => h.Rooms).FirstOrDefaultAsync();
             return Ok(hotel.Rooms);
         }
-     
+
+        [HttpPost]
+        [Route("bookRoom")]
+        public async Task<ActionResult> BookRoom()
+        {
+            var room = new Room(1, "classic");
+           
+            room.ReserveRoom();
+
+            var events = room.PendingChanges;
+            var expectedVersion = room.Version;
+            var newVersion = expectedVersion + events.Count();
+
+            foreach (var @event in room.PendingChanges)
+            {
+                if (expectedVersion == 0)
+                {
+                    _context.RoomEvents.Add(Event.Create($"room:{room.RoomNumber}", newVersion, @event));
+                }
+                else
+                {
+                    _context.RoomEvents.Add(Event.Create($"room:{room.RoomNumber}", ++expectedVersion, @event));
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("CheckOutRoom")]
+        public async Task<ActionResult> CheckOutRoom(Room room)
+        {
+            //var events = await _context.ReservedRooms.Where(a => a.RoomId == room.RoomId).ToListAsync();
+            //var reservedRoom = new ReservedRoom(events);
+            //reservedRoom.CheckOutUser();
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using HotelService.Models;
+﻿using HotelService.EventStore;
+using HotelService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelService.Database
@@ -12,8 +13,7 @@ namespace HotelService.Database
             Database.EnsureCreated();
         }
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<ReservedRoom> ReservedRooms { get; set; }
-
+        public DbSet<Event> RoomEvents { get; set; }
         public DbSet<HotelAdmin> Admins { get; set; }
 
     }
