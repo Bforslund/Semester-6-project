@@ -34,14 +34,14 @@ namespace HotelService.Controllers
 
         [HttpPost]
         [Route("newPic")]
-        public IActionResult UploadDocumentToS3(IFormFile file)
+        public async Task<IActionResult> UploadDocumentToS3(IFormFile file)
 		{
 			try
 			{
                 if (file is null || file.Length <= 0)
 					return BadRequest("file is required to upload");
 				
-                var result = _aws3Services.UploadFileAsync(file);
+                var result = await _aws3Services.UploadFileAsync(file);
 				
 				return Ok(result);
 			}
