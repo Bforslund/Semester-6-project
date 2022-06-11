@@ -5,22 +5,18 @@ using System.Collections.Generic;
 namespace HotelService.Models
 {
     public class Room
-    {
-        public string Id { get; set; }
-      
+    {   
         public int RoomNumber { get; set; }
         public string RoomType { get; set; }
-        public bool Reserved { get; set; }
+        public bool Available { get; set; }
 
         internal int Version = 0;
         internal List<IEvent> PendingChanges { get; } = new();
 
         public Room(int roomNumber, string roomType)
         {
-            Version++;
             ApplyEvent(new RoomRegistered
             {
-                Id = $"room:{roomNumber}:{Version}:RoomRegistered",
                 RoomNumber = roomNumber, 
                 RoomType = roomType
             });
@@ -53,52 +49,51 @@ namespace HotelService.Models
                 case RoomRegistered roomRegistered:
                     HandleEvent(roomRegistered);
                     break;
-                case RoomBooked roomBooked:
+                case RoomOccupied roomBooked:
                     HandleEvent(roomBooked);
                     break;
 
-                case RoomFree roomFree:
+                case RoomAvailable roomFree:
                     HandleEvent(roomFree);
                     break;
             }
         }
 
-        private void HandleEvent(RoomBooked roomBooked)
+        private void HandleEvent(RoomOccupied roomBooked)
         {
             RoomNumber = roomBooked.RoomNumber;
-            Reserved = roomBooked.Reserved;
+            Available = roomBooked.Available;
         }
 
-        private void HandleEvent(RoomFree roomFree)
+        private void HandleEvent(RoomAvailable roomFree)
         {
             RoomNumber = roomFree.RoomNumber;
-            Reserved = roomFree.Reserved;
+            Available = roomFree.Available;
         }
         private void HandleEvent(RoomRegistered roomRegistered)
         {
             RoomNumber = roomRegistered.RoomNumber;
             RoomType = roomRegistered.RoomType;
-            Reserved = roomRegistered.Reserved;
+            Available = roomRegistered.Available;
         }
 
-        public void EmptyRoom()
+        public void RoomIsAvailable()
         {
-            ApplyEvent(new RoomFree
+            ApplyEvent(new RoomAvailable
             {
-                Id = $"room:{RoomNumber}:{Version}:RoomFree",
                 RoomNumber = RoomNumber
             });
         }
-        public void ReserveRoom()
+
+        public void RoomIsOccupied()
         {
-            if (Reserved)
+            if (!Available)
             {
-                throw new ArgumentException($"Room {RoomNumber} is already reserved");
+                throw new ArgumentException($"Room {RoomNumber} is already occupied");
             }
 
-            ApplyEvent(new RoomBooked
+            ApplyEvent(new RoomOccupied
             {
-                Id = $"room:{RoomNumber}:{Version}:RoomBooked",
                 RoomNumber = RoomNumber
             });
         }

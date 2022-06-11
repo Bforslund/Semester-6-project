@@ -2,12 +2,10 @@
 
 namespace HotelService.EventStore
 {
-    public class RoomBooked : IEvent
+    public class RoomOccupied : IEvent
     {
-        public string Id { get; set; }
-
         public int RoomNumber { get; set; }
-        public bool Reserved = true;
+        public bool Available = false;
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
     }
 }

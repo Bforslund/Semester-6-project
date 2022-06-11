@@ -13,7 +13,8 @@ namespace HotelService.Database
             Database.EnsureCreated();
         }
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<Event> RoomEvents { get; set; }
+        public DbSet<EventContainer> RoomEvents { get; set; }
+        public DbSet<RoomProjection> RoomProjections { get; set; }
         public DbSet<HotelAdmin> Admins { get; set; }
 
     }
