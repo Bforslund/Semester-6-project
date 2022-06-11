@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HotelService.Models
+namespace HotelQueryService.Models
 {
     public class Hotel
     {

@@ -19,12 +19,10 @@ namespace HotelService.Repository
 
         private readonly ApplicationDbContext _context;
         private readonly CipherService _cipherService;
-        private readonly JWT _jwtSecret;
-        public AdminService(ApplicationDbContext context, CipherService cipherService, IOptions<JWT> jwtSecret)
+        public AdminService(ApplicationDbContext context, CipherService cipherService)
         {
             _context = context;
             _cipherService = cipherService;
-            _jwtSecret = jwtSecret.Value;
         }
 
         public async Task CreateAdminAsync(HotelAdmin admin)
@@ -54,9 +52,11 @@ namespace HotelService.Repository
 
         private string generateJwtToken(HotelAdmin hotelAdmin)
         {
+
+            string jwt = Environment.GetEnvironmentVariable("JWT_token");
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSecret.Secret);
+            var key = Encoding.ASCII.GetBytes(jwt);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", hotelAdmin.HotelId.ToString()) }),

@@ -64,7 +64,7 @@ namespace BookingService.Repository
         {
             var available = await AmountOfAvailableRoomsAsync(obj.HotelId, obj.Start, obj.End);
             Booking b = await _context.Bookings.FirstOrDefaultAsync(booking => booking.Id == obj.Id);
-            if (available > 1)
+            if (available >= 1)
             {
                 b.Confirmed = true;
                 await _context.SaveChangesAsync();
@@ -87,13 +87,7 @@ namespace BookingService.Repository
 
             return existingBooking;
         }
-        //public async Task<Booking> BookingByEmail(string email)
-        //{
-        //    var booking = _context.Bookings.First(a => a.ContactInfo == email);
-        //    existingBooking.ContactInfo = _cipherService.Encrypt(updatedBooking.ContactInfo);
-        //    await _context.SaveChangesAsync();
-        //    return existingBooking;
-        //}
+
 
     }
        

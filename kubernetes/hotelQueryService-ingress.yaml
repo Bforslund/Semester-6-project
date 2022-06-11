@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hotelQueryService
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+  - host: hotelQuery.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hotelQueryService
+            port:
+              name: http
+  tls:
+  - hosts:
+    - hotel.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
+    secretName: hotelQueryService-ingress-tls

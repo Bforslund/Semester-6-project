@@ -31,8 +31,8 @@ namespace PlayerService.MessageHandlers
             if (CheckAvailability())
             {
 
-                ReservedRoom newReservedRoom = new ReservedRoom(obj.RoomId, obj.Start, obj.End);
-                _context.ReservedRooms.Add(newReservedRoom);
+                //ReservedRoom newReservedRoom = new ReservedRoom(obj.RoomId, obj.Start, obj.End);
+                //_context.ReservedRooms.Add(newReservedRoom);
                 
                 await _messagePublisher.PublishMessageAsync("BookingConfirmed", obj);
             }

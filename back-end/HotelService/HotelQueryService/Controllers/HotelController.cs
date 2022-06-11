@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HotelService.Database;
-using HotelService.EventStore;
-using HotelService.Models;
+﻿using HotelQueryService.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Shared.Messaging;
 
 namespace HotelService.Controllers
 {
@@ -15,13 +8,11 @@ namespace HotelService.Controllers
     [Route("[controller]")]
     public class HotelController : ControllerBase
     {
-        private readonly IMessagePublisher _messagePublisher;
 
         private readonly ApplicationDbContext _context;
-        public HotelController(IMessagePublisher messagePublisher, ApplicationDbContext context)
+        public HotelController(ApplicationDbContext context)
         {
             _context = context;
-            _messagePublisher = messagePublisher;
         }
 
         [HttpGet]
@@ -40,13 +31,12 @@ namespace HotelService.Controllers
             return Ok(hotel);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddHotelAsync(Hotel hotel)
+        [HttpGet]
+        [Route("rooms/{hotelId}")]
+        public async Task<ActionResult> GetAllRoomsAsync(int hotelId)
         {
-            _context.Hotels.Add(hotel);
-            await _context.SaveChangesAsync();
-            await _messagePublisher.PublishMessageAsync("NewHotel", hotel);
-            return Ok(hotel.Id);
+            var rooms = await _context.Hotels.Where(h => h.Id == hotelId).Include(h => h.Rooms).Select(h => h.Rooms).ToListAsync();
+            return Ok(rooms);
         }
     }
 }

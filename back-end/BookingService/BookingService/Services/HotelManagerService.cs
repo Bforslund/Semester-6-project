@@ -24,7 +24,7 @@ namespace BookingService.Repository
         public async Task AddRoomAsync(AddRoomEvent roomEvent)
         {
             var hotel = await _context.Hotels.Where(a => a.Id == roomEvent.HotelId).Include(h => h.Rooms).FirstOrDefaultAsync();
-            Room r = new Room(roomEvent.Room.RoomType);
+            Room r = new Room(roomEvent.Room.RoomNumber, roomEvent.Room.RoomType);
           //  r.Id = roomEvent.Room.Id;
             hotel.Rooms.Add(r);
             await _context.SaveChangesAsync();

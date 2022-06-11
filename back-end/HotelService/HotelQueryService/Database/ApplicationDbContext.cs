@@ -1,8 +1,8 @@
-﻿using HotelService.EventStore;
-using HotelService.Models;
+﻿
+using HotelQueryService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotelService.Database
+namespace HotelQueryService.Database
 {
     public class ApplicationDbContext : DbContext
     {
@@ -13,9 +13,7 @@ namespace HotelService.Database
             Database.EnsureCreated();
         }
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<EventContainer> RoomEvents { get; set; }
         public DbSet<RoomProjection> RoomProjections { get; set; }
-        public DbSet<HotelAdmin> Admins { get; set; }
 
     }
 }
