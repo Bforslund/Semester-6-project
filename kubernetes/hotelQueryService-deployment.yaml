@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hotelQueryService
+  name: hotelqueryservice
   labels:
-    app: hotelQueryService
+    app: hotelqueryservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hotelQueryService
+      app: hotelqueryservice
   template:
     metadata:
       labels:
-        app: hotelQueryService
+        app: hotelqueryservice
     spec:
       containers:
-        - name: hotelQueryService
+        - name: hotelqueryservice
           image: bforslund/semester-6-hotelqueryservice:121613
           imagePullPolicy: Always
           env:
