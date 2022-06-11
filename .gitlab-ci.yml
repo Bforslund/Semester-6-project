@@ -1,6 +1,7 @@
 stages:   
   - HotelService
   - BookingService
+  - HotelQueryService
   - Update-git
 
 build-BookingService:  
@@ -44,6 +45,27 @@ deploy-HotelService:
      - "docker login -u $docker_username -p $docker_password"
      - "docker push bforslund/semester-6-hotel:$CI_PIPELINE_ID"
 
+build-HotelQueryService: 
+  stage: HotelQueryService
+  script:
+     - "cd ./back-end/HotelService"
+     - "dotnet build /nodereuse:false"
+
+test-HotelQueryService:   
+  stage: HotelQueryService
+  script:
+     - "cd ./back-end/HotelService"
+     - "dotnet test /nodereuse:false"
+
+deploy-HotelQueryService:
+  stage: HotelQueryService
+  script:
+     - "cd ./back-end/HotelService"
+     - "docker build -f ./HotelQueryService/Dockerfile -t bforslund/semester-6-hotelQueryService:$CI_PIPELINE_ID ."
+     - "docker login -u $docker_username -p $docker_password"
+     - "docker push bforslund/semester-6-hotelQueryService:$CI_PIPELINE_ID"
+    
+
 
 update-git-repo:
   stage: Update-git
@@ -54,12 +76,16 @@ update-git-repo:
      - yq -i "$commandArgument" bookingservice-deployment.yaml
      - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotel:$CI_PIPELINE_ID"""""
      - yq -i "$commandArgument" hotelservice-deployment.yaml 
+     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotelQueryService:$CI_PIPELINE_ID"""""
+     - yq -i "$commandArgument" hotelQueryService-deployment.yaml 
      - git config --global user.email "${GITLAB_USER_EMAIL}"
      - git config --global user.name "${GITLAB_USER_NAME}"
      - git add bookingservice-deployment.yaml
      - git commit -m "[ci skip] [skip ci]Update kubernetes deployment to booking:$CI_PIPELINE_ID"
      - git add hotelservice-deployment.yaml
      - git commit -m "[ci skip] [skip ci] Update kubernetes deployment to hotel:$CI_PIPELINE_ID"
+     - git add hotelQueryService-deployment.yaml
+     - git commit -m "[ci skip] [skip ci] Update kubernetes deployment to hotelQueryService:$CI_PIPELINE_ID"
      - git remote rm origin
      - git remote add origin https://gitlab_runner:$GITLAB_RUNNER_PASSWORD@git.fhict.nl/I431685/semester-6-project.git
      - git push origin HEAD:$CI_COMMIT_REF_NAME
