@@ -1,36 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hotelservice
+  name: hotelQueryService
   labels:
-    app: hotelservice
+    app: hotelQueryService
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hotelservice
+      app: hotelQueryService
   template:
     metadata:
       labels:
-        app: hotelservice
+        app: hotelQueryService
     spec:
       containers:
-        - name: hotelservice
-          image: bforslund/semester-6-hotel:121613
+        - name: hotelQueryService
+          image: bforslund/semester-6-hotelQueryService:121613
           imagePullPolicy: Always
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
-            - name: RABBITMQ_HOSTNAME
-              value: rabbitmq-client.default.svc.cluster.local
             - name: DbConnectionString
               value: Server=hoteldatabase.mysql.database.azure.com;UserID = adminbea;Password=Password1;Database=hoteldatabase;
-            - name: AppConfiguration__AccessKey
-              value: AKIAXR57OWGB5IKRZNHO
-            - name: AppConfiguration__SecretKey
-              value: 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
-            - name: AppConfiguration__BucketName
-              value: hotelpictures
           ports:
             - containerPort: 80
           resources:

@@ -12,6 +12,7 @@ using Shared;
 using HotelService.Repository;
 using HotelService.Services;
 using HotelService.Configuration;
+using System;
 
 namespace HotelService
 {
@@ -28,9 +29,9 @@ namespace HotelService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
             services.AddDbContext<ApplicationDbContext>(options =>
-              options.UseMySQL(
-                  Configuration.GetConnectionString("DefaultConnection")));
+              options.UseMySQL(connectionString));
            
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>

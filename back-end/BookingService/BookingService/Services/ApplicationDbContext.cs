@@ -9,8 +9,8 @@ namespace BookingService.Repository
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-           //Database.EnsureDeleted();
-           Database.EnsureCreated();
+          // Database.EnsureDeleted();
+          Database.EnsureCreated();
         }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Booking> Bookings { get; set; }
