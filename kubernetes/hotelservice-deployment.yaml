@@ -31,6 +31,8 @@ spec:
               value: izLNQttJlPNwYAA+bF78p0d6JBmDoSxnTWfN1RQ/
             - name: AppConfiguration__BucketName
               value: hotelpictures
+            - name: JWT_token
+              value: oeRaYY7Wo24sDqKSX
           ports:
             - containerPort: 80
           resources:

@@ -61,9 +61,9 @@ deploy-HotelQueryService:
   stage: HotelQueryService
   script:
      - "cd ./back-end/HotelService"
-     - "docker build -f ./HotelQueryService/Dockerfile -t bforslund/semester-6-hotelQueryService:$CI_PIPELINE_ID ."
+     - "docker build -f ./HotelQueryService/Dockerfile -t bforslund/semester-6-hotelqueryservice:$CI_PIPELINE_ID ."
      - "docker login -u $docker_username -p $docker_password"
-     - "docker push bforslund/semester-6-hotelQueryService:$CI_PIPELINE_ID"
+     - "docker push bforslund/semester-6-hotelqueryservice:$CI_PIPELINE_ID"
     
 
 
@@ -76,7 +76,7 @@ update-git-repo:
      - yq -i "$commandArgument" bookingservice-deployment.yaml
      - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotel:$CI_PIPELINE_ID"""""
      - yq -i "$commandArgument" hotelservice-deployment.yaml 
-     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotelQueryService:$CI_PIPELINE_ID"""""
+     - $commandArgument = ".spec.template.spec.containers[0].image = """"bforslund/semester-6-hotelqueryservice:$CI_PIPELINE_ID"""""
      - yq -i "$commandArgument" hotelQueryService-deployment.yaml 
      - git config --global user.email "${GITLAB_USER_EMAIL}"
      - git config --global user.name "${GITLAB_USER_NAME}"
