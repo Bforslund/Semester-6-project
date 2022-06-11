@@ -7,7 +7,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   rules:
-  - host: hotelQuery.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io 
+  - host: hotelquery.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io 
     http:
       paths:
       - path: /
@@ -19,5 +19,5 @@ spec:
               name: http
   tls:
   - hosts:
-    - hotel.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
+    - hotelquery.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
     secretName: hotelqueryservice-ingress-tls
