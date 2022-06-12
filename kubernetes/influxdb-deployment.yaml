@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: influxdb-deployment
 spec:
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: influxdb
