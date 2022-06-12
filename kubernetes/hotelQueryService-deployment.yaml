@@ -18,11 +18,18 @@ spec:
         - name: hotelqueryservice
           image: bforslund/semester-6-hotelqueryservice:122738
           imagePullPolicy: Always
+          volumeMounts:
+            - name: secrets-store01-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
             - name: DbConnectionString
-              value: Server=hoteldatabase.mysql.database.azure.com;UserID = adminbea;Password=Password1;Database=hoteldatabase;
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: connectionString
           ports:
             - containerPort: 80
           resources:
@@ -30,3 +37,10 @@ spec:
               cpu: 50m
             limits:
               cpu: 200m
+      volumes:
+      - name: secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "azure-kvname-system-msi"

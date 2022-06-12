@@ -34,7 +34,10 @@ spec:
                   name: hotelservice-secret
                   key: connectionString
             - name: AppConfiguration__AccessKey
-              value: AKIAXR57OWGB5IKRZNHO
+              valueFrom:
+                secretKeyRef:
+                  name: aws3-accesskey
+                  key: aws3-accesskey
             - name: AppConfiguration__SecretKey
               value: izLNQttJlPNwYAA+bF78p0d6JBmDoSxnTWfN1RQ/
             - name: AppConfiguration__BucketName
