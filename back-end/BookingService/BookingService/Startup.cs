@@ -9,6 +9,7 @@ using PlayerService.MessageHandlers;
 using Microsoft.EntityFrameworkCore;
 using BookingService.Repository;
 using BookingService.MessageHandlers;
+using System;
 
 namespace BookingService
 {
@@ -24,9 +25,9 @@ namespace BookingService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
             services.AddDbContext<ApplicationDbContext>(options =>
-                                            options.UseMySQL(
-            Configuration.GetConnectionString("DefaultConnection")));
+                                            options.UseMySQL(connectionString));
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {

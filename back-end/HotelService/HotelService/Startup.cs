@@ -48,7 +48,6 @@ namespace HotelService
                 .AddScoped<CipherService>()
                 .AddScoped<IAws3Services, Aws3Services>();
 
-            services.Configure<JWT>(Configuration.GetSection("JWT"));
             var amazonS3Section = Configuration.GetSection(nameof(AppConfiguration));
             var amazonS3Settings = amazonS3Section.Get<AppConfiguration>();
             services.AddSingleton<IAppConfiguration>(amazonS3Settings);
