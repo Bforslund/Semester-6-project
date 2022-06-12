@@ -36,8 +36,8 @@ spec:
             - name: AppConfiguration__AccessKey
               valueFrom:
                 secretKeyRef:
-                  name: aws3-accesskey
-                  key: aws3-accesskey
+                  name: aws3-accesskey-secret
+                  key: aws3-accesskey-key
             - name: AppConfiguration__SecretKey
               value: izLNQttJlPNwYAA+bF78p0d6JBmDoSxnTWfN1RQ/
             - name: AppConfiguration__BucketName
