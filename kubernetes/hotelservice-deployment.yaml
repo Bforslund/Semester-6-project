@@ -39,11 +39,17 @@ spec:
                   name: hotelservice-secret
                   key: aws3-accesskey-key
             - name: AppConfiguration__SecretKey
-              value: izLNQttJlPNwYAA+bF78p0d6JBmDoSxnTWfN1RQ/
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: aws3-secretkey-key
             - name: AppConfiguration__BucketName
               value: hotelpictures
             - name: JWT_token
-              value: oeRaYY7Wo24sDqKSX
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: jwt_token
           ports:
             - containerPort: 80
           resources:
