@@ -1,8 +1,15 @@
-stages:   
+stages:
+  - DeployInfrastructure
   - HotelService
   - BookingService
   - HotelQueryService
   - Update-git
+
+infrastructure:
+  stage: DeployInfrastructure
+  script:
+    - az login az login --service-principal -u $AZURE_CLIENT_ID -p AZURE_CLIENT_PASSWORD --tenant c66b6765-b794-4a2b-84ed-845b341c086a
+    - az deployment group create -f azure.bicep -g semester6-bea
 
 build-BookingService:  
   stage: BookingService
@@ -64,9 +71,7 @@ deploy-HotelQueryService:
      - "docker build -f ./HotelQueryService/Dockerfile -t bforslund/semester-6-hotelqueryservice:$CI_PIPELINE_ID ."
      - "docker login -u $docker_username -p $docker_password"
      - "docker push bforslund/semester-6-hotelqueryservice:$CI_PIPELINE_ID"
-    
-
-
+   
 update-git-repo:
   stage: Update-git
   script:
