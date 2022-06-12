@@ -8,8 +8,8 @@ stages:
 infrastructure:
   stage: DeployInfrastructure
   script:
-    - az login az login --service-principal -u $AZURE_CLIENT_ID -p AZURE_CLIENT_PASSWORD --tenant c66b6765-b794-4a2b-84ed-845b341c086a
-    - az deployment group create -f azure.bicep -g semester6-bea
+    - az login --service-principal -u $AZURE_CLIENT_ID -p AZURE_CLIENT_PASSWORD --tenant c66b6765-b794-4a2b-84ed-845b341c086a
+    - az deployment group create -f infrastructure/azure.bicep -g semester6-bea
 
 build-BookingService:  
   stage: BookingService
