@@ -14,6 +14,7 @@ spec:
       labels:
         app: hotelservice
     spec:
+      revisionHistoryLimit: 0
       containers:
         - name: hotelservice
           image: bforslund/semester-6-hotel:122738
