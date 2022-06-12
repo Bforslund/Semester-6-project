@@ -45,6 +45,10 @@ resource managedClusters_semester_6_bea_aks_name_resource 'Microsoft.ContainerSe
     addonProfiles: {
       azureKeyvaultSecretsProvider: {
         enabled: true
+        config: {
+          enableSecretRotation: 'true'
+          rotationPollInterval: '2m'
+        }
       }
       azurepolicy: {
         enabled: true
