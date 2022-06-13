@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: bookingservice
-          image: bforslund/semester-6-booking:122738
+          image: bforslund/semester-6-booking:122978
           imagePullPolicy: Always
           volumeMounts:
             - name: secrets-store01-inline
@@ -41,10 +41,9 @@ spec:
             limits:
               cpu: 200m
       volumes:
-      - name: secrets-store01-inline
-        csi:
-          driver: secrets-store.csi.k8s.io
-          readOnly: true
-          volumeAttributes:
-            secretProviderClass: "azure-kvname-system-msi"
-
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-kvname-system-msi"
