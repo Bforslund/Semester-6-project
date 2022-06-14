@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotelService.Authentication;
 using HotelService.Database;
 using HotelService.EventStore;
 using HotelService.Models;
@@ -23,14 +24,14 @@ namespace HotelService.Controllers
             _context = context;
             _messagePublisher = messagePublisher;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
             var hotels = await _context.Hotels.Include(h => h.Rooms).ToListAsync();
             return Ok(hotels);
         }
-
+   
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult> GetHotelByIdAsync(int id)
@@ -40,6 +41,7 @@ namespace HotelService.Controllers
             return Ok(hotel);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddHotelAsync(Hotel hotel)
         {

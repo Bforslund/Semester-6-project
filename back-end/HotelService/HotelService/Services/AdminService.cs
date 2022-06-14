@@ -32,6 +32,12 @@ namespace HotelService.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<HotelAdmin> GetAdminByHotelIdAsync(int hotelId)
+        {
+            var admin = await _context.Admins.Where(a => a.HotelId == hotelId).FirstOrDefaultAsync();
+            return admin;
+        }
+
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
             var user = _context.Admins.SingleOrDefault(x => x.Username == model.Username);
@@ -52,7 +58,6 @@ namespace HotelService.Repository
 
         private string generateJwtToken(HotelAdmin hotelAdmin)
         {
-
             string jwt = Environment.GetEnvironmentVariable("JWT_token");
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();

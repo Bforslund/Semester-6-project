@@ -1,4 +1,5 @@
-﻿using HotelService.Services;
+﻿using HotelService.Authentication;
+using HotelService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,7 +14,7 @@ namespace HotelService.Controllers
         {
             _aws3Services = aws3Services;
         }
-
+        [Authorize]
         [HttpGet("{documentName}")]
         public IActionResult GetDocumentFromS3(string documentName)
         {
@@ -31,7 +32,7 @@ namespace HotelService.Controllers
                 return StatusCode(500, ex);
             }
         }
-
+        [Authorize]
         [HttpPost]
         [Route("newPic")]
         public async Task<IActionResult> UploadDocumentToS3(IFormFile file)
@@ -50,7 +51,7 @@ namespace HotelService.Controllers
 				return StatusCode(500, ex);
 			}
 		}
-
+        [Authorize]
         [HttpDelete("{documentName}")]
         public async Task<IActionResult> DeletetDocumentFromS3Async(string documentName)
         {

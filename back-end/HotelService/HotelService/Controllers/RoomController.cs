@@ -1,4 +1,5 @@
-﻿using HotelService.Database;
+﻿using HotelService.Authentication;
+using HotelService.Database;
 using HotelService.EventStore;
 using HotelService.Models;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace HotelService.Controllers
             var rooms = await _context.Hotels.Where(h => h.Id == hotelId).Include(h => h.Rooms).Select(h => h.Rooms).ToListAsync();
             return Ok(rooms);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddRoomAsync(int hotelId, RoomProjection room)
         {
@@ -47,7 +48,7 @@ namespace HotelService.Controllers
 
             return Ok(room);
         }
-
+        [Authorize]
         [HttpPost]
         [Route("{roomNumber}/checkIn")]
         public async Task<ActionResult> CheckinAsync(int hotelId, int roomNumber)
@@ -80,7 +81,7 @@ namespace HotelService.Controllers
 
             return Ok(roomProjection);
         }
-
+        [Authorize]
         [HttpPost]
         [Route("{roomNumber}/checkOut")]
         public async Task<ActionResult> CheckOutAsync(int hotelId, int roomNumber)

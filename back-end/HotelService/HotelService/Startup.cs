@@ -13,6 +13,7 @@ using HotelService.Repository;
 using HotelService.Services;
 using HotelService.Configuration;
 using System;
+using HotelService.Authentication;
 
 namespace HotelService
 {
@@ -68,6 +69,8 @@ namespace HotelService
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
