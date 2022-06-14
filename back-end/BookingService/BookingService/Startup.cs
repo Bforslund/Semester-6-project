@@ -45,7 +45,7 @@ namespace BookingService
             services
                 .AddScoped<AvalabilityService>()
                 .AddScoped<HotelManagerService>()
-                .AddScoped<CipherService>();
+                .AddScoped<ICipherService, CipherService>();
 
         }
 

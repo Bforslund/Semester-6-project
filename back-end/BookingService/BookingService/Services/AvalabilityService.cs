@@ -12,9 +12,9 @@ namespace BookingService.Repository
     {
         
         private readonly ApplicationDbContext _context;
-        private readonly CipherService _cipherService;
+        private readonly ICipherService _cipherService;
 
-        public AvalabilityService(ApplicationDbContext context, CipherService cipherService)
+        public AvalabilityService(ApplicationDbContext context, ICipherService cipherService)
         {
             _context = context;
             _cipherService = cipherService;
@@ -39,7 +39,7 @@ namespace BookingService.Repository
             var bookingsBetweenCertainDates = bookings.FindAll(
                 booking => Between(startNewBooking, endNewBooking, booking));
 
-            return hotel.Rooms.Where(room => !bookingsBetweenCertainDates.Any(booking => booking.RoomId == room.Id));
+            return hotel.Rooms.Where(room => !bookingsBetweenCertainDates.Any(booking => booking.RoomId == room.RoomNumber));
         }
 
         private static bool Between(DateTime startNewBooking, DateTime endNewBooking, Booking booking)
