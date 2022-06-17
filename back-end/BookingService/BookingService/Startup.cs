@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using BookingService.Repository;
 using BookingService.MessageHandlers;
 using System;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace BookingService
 {
@@ -27,7 +28,18 @@ namespace BookingService
         {
             string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
             services.AddDbContext<ApplicationDbContext>(options =>
-                                            options.UseMySQL(connectionString));
+            {
+
+                options.UseMySql(connectionString,
+                    ServerVersion.AutoDetect(connectionString),
+                    mySqlOptions =>
+                        mySqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 10,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorNumbersToAdd: null));
+            });
+
+  
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
