@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: hotelservice
-          image: bforslund/semester-6-hotel:122978
+          image: bforslund/semester-6-hotel:125254
           imagePullPolicy: Always
           volumeMounts:
             - name: secrets-store01-inline
