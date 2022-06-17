@@ -45,7 +45,7 @@ spec:
             requests:
               cpu: 50m
             limits:
-              cpu: 500m
+              cpu: 350m
       # volumes:
 
 #   - name: secrets-store01-inline
