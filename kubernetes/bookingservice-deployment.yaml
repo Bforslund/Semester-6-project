@@ -5,7 +5,7 @@ metadata:
   labels:
     app: bookingservice
 spec:
-  revisionHistoryLimit: 0
+  # revisionHistoryLimit: 0
   replicas: 4
   selector:
     matchLabels:
@@ -44,9 +44,9 @@ spec:
             - containerPort: 80
           resources:
             requests:
-              cpu: 20m
+              cpu: 50m
             limits:
-              cpu: 200m
+              cpu: 500m
       # volumes:
 
 #   - name: secrets-store01-inline
