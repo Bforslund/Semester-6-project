@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: bookingservice
-          image: bforslund/semester-6-booking:125254
+          image: bforslund/semester-6-booking:125274
           imagePullPolicy: Always
           volumeMounts:
             - name: secrets-store01-inline
