@@ -72,41 +72,41 @@ public class UnitTest1
         Assert.Single(rooms);
     }
 
-    [Fact]
-    public async Task ComponentTest()
-    {
-        // Arrange
-        MockHttpMessageHandler
-            .When(HttpMethod.Get, "https://shopify/api/v1/products/admin/api/2021-07/products/APPLE_IPHONE.json")
-            .WithHeaders(new Dictionary<string, string>
-            {
-                ["X-Shopify-Access-Token"] = "secret"
-            })
-            .Respond(MediaTypeNames.Application.Json, File.ReadAllText("Shopify/Examples/APPLE_IPHONE.json"));
+    //[Fact]
+    //public async Task ComponentTest()
+    //{
+    //    // Arrange
+    //    MockHttpMessageHandler
+    //        .When(HttpMethod.Get, "https://shopify/api/v1/products/admin/api/2021-07/products/APPLE_IPHONE.json")
+    //        .WithHeaders(new Dictionary<string, string>
+    //        {
+    //            ["X-Shopify-Access-Token"] = "secret"
+    //        })
+    //        .Respond(MediaTypeNames.Application.Json, File.ReadAllText("Shopify/Examples/APPLE_IPHONE.json"));
 
-        // Act #1
-        HttpResponseMessage getAllResponse = await SystemUnderTest.GetAsync("/api/v1/orders");
-        var orders = await getAllResponse.Content.ReadFromJsonAsync<Order[]>();
-        orders.Length.Should().Be(0);
+    //    // Act #1
+    //    HttpResponseMessage getAllResponse = await SystemUnderTest.GetAsync("/api/v1/orders");
+    //    var orders = await getAllResponse.Content.ReadFromJsonAsync<Order[]>();
+    //    orders.Length.Should().Be(0);
 
-        // Act #2
-        HttpResponseMessage createResponse = await SystemUnderTest.PostAsync(
-            "/api/v1/orders",
-            JsonContent.Create(new CreateOrderDto()
-            {
-                ProductNumbers = new[] { "APPLE_IPHONE" },
-                UserId = Guid.NewGuid(),
-                TotalAmount = 495m,
-            }));
+    //    // Act #2
+    //    HttpResponseMessage createResponse = await SystemUnderTest.PostAsync(
+    //        "/api/v1/orders",
+    //        JsonContent.Create(new CreateOrderDto()
+    //        {
+    //            ProductNumbers = new[] { "APPLE_IPHONE" },
+    //            UserId = Guid.NewGuid(),
+    //            TotalAmount = 495m,
+    //        }));
 
-        // Act #3
-        getAllResponse = await SystemUnderTest.GetAsync("/api/v1/orders");
+    //    // Act #3
+    //    getAllResponse = await SystemUnderTest.GetAsync("/api/v1/orders");
 
 
-        // Assert
-        createResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        getAllResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-        orders = await getAllResponse.Content.ReadFromJsonAsync<Order[]>();
-        orders.Length.Should().Be(1);
-    }
+    //    // Assert
+    //    createResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    //    getAllResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+    //    orders = await getAllResponse.Content.ReadFromJsonAsync<Order[]>();
+    //    orders.Length.Should().Be(1);
+    //}
 }
