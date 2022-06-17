@@ -25,9 +25,9 @@ namespace BookingService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //                                options.UseMySQL(connectionString));
+            string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
+            services.AddDbContext<ApplicationDbContext>(options =>
+                                            options.UseMySQL(connectionString));
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
@@ -42,10 +42,10 @@ namespace BookingService
             });
             services.AddDataProtection();
 
-            //services
-            //    .AddScoped<AvalabilityService>()
-            //    .AddScoped<HotelManagerService>()
-            //    .AddScoped<ICipherService, CipherService>();
+            services
+                .AddScoped<AvalabilityService>()
+                .AddScoped<HotelManagerService>()
+                .AddScoped<ICipherService, CipherService>();
 
         }
 
