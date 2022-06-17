@@ -30,9 +30,9 @@ spec:
               value: rabbitmq-client.default.svc.cluster.local
             - name: DbConnectionString
               valueFrom:
-            secretKeyRef:
-              name: bookingservice-secret
-              key: booking-connectionString
+                secretKeyRef:
+                  name: bookingservice-secret
+                  key: booking-connectionString
           ports:
             - containerPort: 80
           resources:
