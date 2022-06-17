@@ -8,5 +8,5 @@ spec:
     kind: Deployment
     name: bookingservice
   minReplicas: 1
-  maxReplicas: 10
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 50
