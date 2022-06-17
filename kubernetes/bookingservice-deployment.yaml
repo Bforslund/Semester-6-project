@@ -32,7 +32,7 @@ spec:
             - name: RABBITMQ_HOSTNAME
               value: rabbitmq-client.default.svc.cluster.local
             - name: DbConnectionString
-              value: adasdja
+              value: Server=bookingdatabase.mysql.database.azure.com;UserID = adminbea;Password=Password1;Database=bookingdatabase;
               # valueFrom:
           #   secretKeyRef:
 
