@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: bookingservice
-          image: bforslund/semester-6-booking:125286
+          image: bforslund/semester-6-booking:125294
           imagePullPolicy: Always
           # volumeMounts:
 
@@ -39,7 +39,6 @@ spec:
           #     name: bookingservice-secret
 
           #     key: booking-connectionString
-
           ports:
             - containerPort: 80
           resources:
