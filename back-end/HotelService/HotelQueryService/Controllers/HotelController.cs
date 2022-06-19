@@ -1,6 +1,9 @@
 ﻿using HotelQueryService.Database;
+using HotelQueryService.Extensions;
+using HotelQueryService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace HotelService.Controllers
 {
@@ -8,18 +11,33 @@ namespace HotelService.Controllers
     [Route("[controller]")]
     public class HotelController : ControllerBase
     {
-
+        private readonly IDistributedCache _cache;
         private readonly ApplicationDbContext _context;
-        public HotelController(ApplicationDbContext context)
+        public HotelController(ApplicationDbContext context, IDistributedCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAllAsync()
         {
-            var hotels = await _context.Hotels.Include(h => h.Rooms).ToListAsync();
-            return Ok(hotels);
+            string recordKey = "Hotels_" + DateTime.Now.ToString("yyyyMMdd_hhmm");
+
+            var hotelsCache = await _cache.GetRecordAsync<Hotel[]>(recordKey);
+            if(hotelsCache == null)
+            {
+                var hotels = await _context.Hotels.Include(h => h.Rooms).ToListAsync();
+                await _cache.SetRecordAsync(recordKey, hotels);
+                return Ok(hotels);
+
+            }
+            else
+            {
+                return Ok(hotelsCache);
+            }
+           
+           
         }
 
         [HttpGet]

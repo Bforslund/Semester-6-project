@@ -30,6 +30,11 @@ spec:
                 secretKeyRef:
                   name: hotelservice-secret
                   key: connectionString
+            - name: RedisConnection
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: redisConnection
           ports:
             - containerPort: 80
           resources:
