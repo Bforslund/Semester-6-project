@@ -1,23 +1,23 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: bookingservice
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
-    cert-manager.io/cluster-issuer: letsencrypt
-spec:
-  rules:
-  - host: booking.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: bookingservice
-            port:
-              name: http            
-  tls:
-  - hosts:
-    - booking.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
-    secretName: bookingservice-ingress-tls
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: bookingservice
+#   annotations:
+#     kubernetes.io/ingress.class: addon-http-application-routing
+#     cert-manager.io/cluster-issuer: letsencrypt
+# spec:
+#   rules:
+#   - host: booking.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: bookingservice
+#             port:
+#               name: http            
+#   tls:
+#   - hosts:
+#     - booking.d28c7b7324414a4cba3b.germanywestcentral.aksapp.io
+#     secretName: bookingservice-ingress-tls
