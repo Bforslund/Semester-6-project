@@ -75,6 +75,8 @@ namespace BookingService.Repository
         {
             var contactinfo = _cipherService.Encrypt(booking.ContactInfo);
            booking.ContactInfo = contactinfo;
+            booking.Start = booking.Start.ToUniversalTime();
+            booking.End = booking.End.ToUniversalTime();
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
             return booking;

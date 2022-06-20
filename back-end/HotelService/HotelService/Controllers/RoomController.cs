@@ -31,6 +31,14 @@ namespace HotelService.Controllers
             var rooms = await _context.Hotels.Where(h => h.Id == hotelId).Include(h => h.Rooms).Select(h => h.Rooms).ToListAsync();
             return Ok(rooms);
         }
+
+        [HttpGet]
+        [Route("{roomNumber}/getEvents")]
+        public async Task<ActionResult> GetAllEventsOfRoomAsync(int hotelId, int roomNumber)
+        {
+            var eventsOfRooms = await _context.RoomEvents.Where(h => h.Aggregate == $"hotel:{hotelId}:room:{roomNumber}").ToListAsync();
+            return Ok(eventsOfRooms);
+        }
         [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddRoomAsync(int hotelId, RoomProjection room)
