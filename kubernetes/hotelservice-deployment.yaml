@@ -1,66 +1,66 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: hotelservice
-#   labels:
-#     app: hotelservice
-# spec:
-#   revisionHistoryLimit: 0
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: hotelservice
-#   template:
-#     metadata:
-#       labels:
-#         app: hotelservice
-#     spec:
-#       containers:
-#         - name: hotelservice
-#           image: bforslund/semester-6-hotel:125324
-#           imagePullPolicy: Always
-#           volumeMounts:
-#             - name: secrets-store01-inline
-#               mountPath: "/mnt/secrets-store"
-#               readOnly: true
-#           env:
-#             - name: ASPNETCORE_ENVIRONMENT
-#               value: Development
-#             - name: RABBITMQ_HOSTNAME
-#               value: rabbitmq-client.default.svc.cluster.local
-#             - name: DbConnectionString
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: hotelservice-secret
-#                   key: connectionString
-#             - name: AppConfiguration__AccessKey
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: hotelservice-secret
-#                   key: aws3-accesskey-key
-#             - name: AppConfiguration__SecretKey
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: hotelservice-secret
-#                   key: aws3-secretkey-key
-#             - name: AppConfiguration__BucketName
-#               value: hotelpictures
-#             - name: JWT_token
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: hotelservice-secret
-#                   key: jwt_token
-#           ports:
-#             - containerPort: 80
-#           resources:
-#             requests:
-#               cpu: 50m
-#             limits:
-#               cpu: 200m
-#       volumes:
-#         - name: secrets-store01-inline
-#           csi:
-#             driver: secrets-store.csi.k8s.io
-#             readOnly: true
-#             volumeAttributes:
-#               secretProviderClass: "azure-kvname-system-msi"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotelservice
+  labels:
+    app: hotelservice
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotelservice
+  template:
+    metadata:
+      labels:
+        app: hotelservice
+    spec:
+      containers:
+        - name: hotelservice
+          image: bforslund/semester-6-hotel:125324
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: secrets-store01-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: RABBITMQ_HOSTNAME
+              value: rabbitmq-client.default.svc.cluster.local
+            - name: DbConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: connectionString
+            - name: AppConfiguration__AccessKey
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: aws3-accesskey-key
+            - name: AppConfiguration__SecretKey
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: aws3-secretkey-key
+            - name: AppConfiguration__BucketName
+              value: hotelpictures
+            - name: JWT_token
+              valueFrom:
+                secretKeyRef:
+                  name: hotelservice-secret
+                  key: jwt_token
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+            limits:
+              cpu: 200m
+      volumes:
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-kvname-system-msi"

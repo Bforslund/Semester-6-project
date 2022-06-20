@@ -1,11 +1,11 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: hotelqueryservice
-spec:
-  selector:
-    app: hotelqueryservice
-  ports:
-    - name: http
-      port: 80
-      targetPort: 80
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: hotelqueryservice
+# spec:
+#   selector:
+#     app: hotelqueryservice
+#   ports:
+#     - name: http
+#       port: 80
+#       targetPort: 80

@@ -1,62 +1,62 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: bookingservice
-#   labels:
-#     app: bookingservice
-# spec:
-#   # revisionHistoryLimit: 0
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: bookingservice
-#   template:
-#     metadata:
-#       labels:
-#         app: bookingservice
-#     spec:
-#       containers:
-#         - name: bookingservice
-#           image: bforslund/semester-6-booking:125324
-#           imagePullPolicy: Always
-#           # volumeMounts:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookingservice
+  labels:
+    app: bookingservice
+spec:
+  # revisionHistoryLimit: 0
+  replicas: 4
+  selector:
+    matchLabels:
+      app: bookingservice
+  template:
+    metadata:
+      labels:
+        app: bookingservice
+    spec:
+      containers:
+        - name: bookingservice
+          image: bforslund/semester-6-booking:125324
+          imagePullPolicy: Always
+          # volumeMounts:
 
-#           #   - name: secrets-store01-inline
+          #   - name: secrets-store01-inline
 
-#           #     mountPath: "/mnt/secrets-store"
+          #     mountPath: "/mnt/secrets-store"
 
-#           #     readOnly: true
-#           env:
-#             - name: ASPNETCORE_ENVIRONMENT
-#               value: Development
-#             - name: RABBITMQ_HOSTNAME
-#               value: rabbitmq-client.default.svc.cluster.local
-#             - name: DbConnectionString
-#               value: Server=bookingdatabase.mysql.database.azure.com;UserID = adminbea;Password=Password1;Database=bookingdatabase;
-#               # valueFrom:
-#           #   secretKeyRef:
+          #     readOnly: true
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: RABBITMQ_HOSTNAME
+              value: rabbitmq-client.default.svc.cluster.local
+            - name: DbConnectionString
+              value: Server=bookingdatabase.mysql.database.azure.com;UserID = adminbea;Password=Password1;Database=bookingdatabase;
+              # valueFrom:
+          #   secretKeyRef:
 
-#           #     name: bookingservice-secret
+          #     name: bookingservice-secret
 
-#           #     key: booking-connectionString
-#           ports:
-#             - containerPort: 80
-#           resources:
-#             requests:
-#               cpu: 50m
-#             limits:
-#               cpu: 350m
-#       # volumes:
+          #     key: booking-connectionString
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+            limits:
+              cpu: 350m
+      # volumes:
 
-# #   - name: secrets-store01-inline
+#   - name: secrets-store01-inline
 
-# #     csi:
+#     csi:
 
-# #       driver: secrets-store.csi.k8s.io
+#       driver: secrets-store.csi.k8s.io
 
-# #       readOnly: true
+#       readOnly: true
 
-# #       volumeAttributes:
+#       volumeAttributes:
 
-# #         secretProviderClass: "azure-kvname-system-msi"
+#         secretProviderClass: "azure-kvname-system-msi"
 
