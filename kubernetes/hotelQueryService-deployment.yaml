@@ -6,6 +6,7 @@ metadata:
     app: hotelqueryservice
 spec:
   revisionHistoryLimit: 0
+  replicas: 1
   selector:
     matchLabels:
       app: hotelqueryservice
