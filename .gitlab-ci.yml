@@ -95,29 +95,29 @@ update-git-repo:
      - git remote add origin https://gitlab_runner:$GITLAB_RUNNER_PASSWORD@git.fhict.nl/I431685/semester-6-project.git
      - git push origin HEAD:$CI_COMMIT_REF_NAME
 
-# hotel-sonarqube-check:
-#   stage: HotelService
-#   variables:
-#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-#   script: 
-#       - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
-#       - "cd ./back-end/HotelService"
-#       - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
-#       - "dotnet build /nodereuse:false"
-#       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
-#   only:
-#     - main # or the name of your main branch
+hotel-sonarqube-check:
+  stage: HotelService
+  variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script: 
+      - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
+      - "cd ./back-end/HotelService"
+      - "dotnet sonarscanner begin /k:\"Semester-6-HotelService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet build /nodereuse:false"
+      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+  only:
+    - main # or the name of your main branch
 
-# booking-sonarqube-check:
-#   stage: BookingService
-#   variables:
-#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
-#   script: 
-#       - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
-#       - "cd ./back-end/BookingService"
-#       - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
-#       - "dotnet build /nodereuse:false"
-#       - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
-#   only:
-#     - main # or the name of your main branch
+booking-sonarqube-check:
+  stage: BookingService
+  variables:
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  script: 
+      - "$Env:PATH+=';C:\\Users\\Bea\\.dotnet\\tools\\'"
+      - "cd ./back-end/BookingService"
+      - "dotnet sonarscanner begin /k:\"Semester-6-BookingService\" /d:sonar.login=\"$SONAR_TOKEN\" /d:\"sonar.host.url=$SONAR_HOST_URL\" "
+      - "dotnet build /nodereuse:false"
+      - "dotnet sonarscanner end /d:sonar.login=\"$SONAR_TOKEN\""
+  only:
+    - main # or the name of your main branch
 
