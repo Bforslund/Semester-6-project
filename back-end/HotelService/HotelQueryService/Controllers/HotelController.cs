@@ -11,51 +11,51 @@ namespace HotelService.Controllers
     [Route("[controller]")]
     public class HotelController : ControllerBase
     {
-        //private readonly IDistributedCache _cache;
-        //private readonly ApplicationDbContext _context;
-        //public HotelController(ApplicationDbContext context, IDistributedCache cache)
-        //{
-        //    _context = context;
-        //    _cache = cache;
-        //}
+        private readonly IDistributedCache _cache;
+        private readonly ApplicationDbContext _context;
+        public HotelController(ApplicationDbContext context, IDistributedCache cache)
+        {
+            _context = context;
+            _cache = cache;
+        }
 
-        //[HttpGet]
-        //public async Task<ActionResult> GetAllAsync()
-        //{
-        //    string recordKey = "Hotels_" + DateTime.Now.ToString("yyyyMMdd_hhmm");
+        [HttpGet]
+        public async Task<ActionResult> GetAllAsync()
+        {
+            string recordKey = "Hotels_" + DateTime.Now.ToString("yyyyMMdd_hhmm");
 
-        //    var hotelsCache = await _cache.GetRecordAsync<Hotel[]>(recordKey);
-        //    if(hotelsCache == null)
-        //    {
-        //        var hotels = await _context.Hotels.Include(h => h.Rooms).ToListAsync();
-        //        await _cache.SetRecordAsync(recordKey, hotels);
-        //        return Ok(hotels);
+            var hotelsCache = await _cache.GetRecordAsync<Hotel[]>(recordKey);
+            if (hotelsCache == null)
+            {
+                var hotels = await _context.Hotels.Include(h => h.Rooms).ToListAsync();
+                await _cache.SetRecordAsync(recordKey, hotels);
+                return Ok(hotels);
 
-        //    }
-        //    else
-        //    {
-        //        return Ok(hotelsCache);
-        //    }
-           
-           
-        //}
+            }
+            else
+            {
+                return Ok(hotelsCache);
+            }
+
+
+        }
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult GetHotelById(int id)
+        public async Task<ActionResult> GetHotelByIdAsync(int id)
         {
-            //var hotel = await _context.Hotels.Where(a => a.Id == id).Include(h => h.Rooms).FirstOrDefaultAsync();
-            //if (hotel == null) return NotFound();
-            return Ok("hi");
+            var hotel = await _context.Hotels.Where(a => a.Id == id).Include(h => h.Rooms).FirstOrDefaultAsync();
+            if (hotel == null) return NotFound();
+            return Ok(hotel);
         }
 
-        //[HttpGet]
-        //[Route("rooms/{hotelId}")]
-        //public async Task<ActionResult> GetAllRoomsAsync(int hotelId)
-        //{
-        //    var rooms = await _context.Hotels.Where(h => h.Id == hotelId).Include(h => h.Rooms).Select(h => h.Rooms).ToListAsync();
-        //    return Ok(rooms);
-        //}
+        [HttpGet]
+        [Route("rooms/{hotelId}")]
+        public async Task<ActionResult> GetAllRoomsAsync(int hotelId)
+        {
+            var rooms = await _context.Hotels.Where(h => h.Id == hotelId).Include(h => h.Rooms).Select(h => h.Rooms).ToListAsync();
+            return Ok(rooms);
+        }
 
 
     }
