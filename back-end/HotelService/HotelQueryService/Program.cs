@@ -9,19 +9,19 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
-string redisConnection = Environment.GetEnvironmentVariable("RedisConnection");
+//string connectionString = Environment.GetEnvironmentVariable("DbConnectionString");
+//string redisConnection = Environment.GetEnvironmentVariable("RedisConnection");
 // Add services to the container.
 builder.Services.AddDataProtection();
 builder.Services.AddControllers();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "redis-semester-6.redis.cache.windows.net:6380,password=JMjSJMEfPi9nbZztaJ45ERLba4mSmIGe7AzCaBHFhzo=,ssl=True,abortConnect=False";
-    options.InstanceName = "redis-semester-6";
-});
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//    options.Configuration = "redis-semester-6.redis.cache.windows.net:6380,password=JMjSJMEfPi9nbZztaJ45ERLba4mSmIGe7AzCaBHFhzo=,ssl=True,abortConnect=False";
+//    options.InstanceName = "redis-semester-6";
+//});
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-           options.UseMySQL(connectionString));
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//           options.UseMySQL(connectionString));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
