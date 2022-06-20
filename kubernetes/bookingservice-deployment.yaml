@@ -59,8 +59,3 @@
 # #       volumeAttributes:
 
 # #         secretProviderClass: "azure-kvname-system-msi"
-spec:
-  template:
-    spec:
-      containers:
-        - image: bforslund/semester-6-booking:126114
