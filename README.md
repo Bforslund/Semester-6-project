@@ -1,5 +1,7 @@
 # Semester 6 project
 
+![image](https://github.com/Bforslund/Semester-6-project/assets/76621688/7a31c38a-c042-4d4b-9ecd-5e59e801975b)
+![image](https://github.com/Bforslund/Semester-6-project/assets/76621688/9599d5a9-f9e5-4c23-b90d-2b4389ce425b)
 
 
 ## Getting started
